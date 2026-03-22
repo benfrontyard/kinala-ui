@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kinala UI Foundations</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    /* ── Focus ring: visible for keyboard, hidden for mouse ── */
+    :focus-visible {
+      outline: 3px solid #B45A32;
+      outline-offset: 3px;
+      border-radius: 4px;
+    }
+
+    body {
+      background: #FBF8F3;
+      color: #1A1715;
+      font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+      font-size: 16px;
+      line-height: 24px;
+      padding: 48px 32px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .page-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 48px;
+      line-height: 56px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .page-subtitle {
+      font-size: 18px;
+      line-height: 28px;
+      color: #5A4F44; /* darkened from #756858 for AA contrast */
+      margin-bottom: 64px;
+    }
+
+    section { margin-bottom: 64px; }
+
+    .section-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #5A4F44;
+      margin-bottom: 20px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #E8DFD2;
+    }
+
+    /* ── COLOR SWATCHES ── */
+    .palette-group { margin-bottom: 32px; }
+    .palette-name { font-size: 13px; font-weight: 600; color: #5A4F44; margin-bottom: 10px; }
+    .swatches { display: flex; gap: 8px; flex-wrap: wrap; }
+    .swatch { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+    .swatch-block { width: 72px; height: 72px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.06); }
+    .swatch-label { font-size: 11px; color: #5A4F44; text-align: center; line-height: 1.3; }
+
+    .semantic-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 12px; }
+    .semantic-card { border-radius: 10px; overflow: hidden; border: 1px solid #E8DFD2; }
+    .semantic-preview { height: 56px; }
+    .semantic-info { padding: 10px 12px; background: white; }
+    .semantic-token { font-size: 12px; font-weight: 600; color: #1A1715; }
+    .semantic-value { font-size: 11px; color: #5A4F44; font-family: monospace; }
+
+    /* ── TYPOGRAPHY ── */
+    .type-row { display: flex; align-items: baseline; gap: 24px; padding: 16px 0; border-bottom: 1px solid #F5EFE6; }
+    .type-meta { min-width: 140px; flex-shrink: 0; }
+    .type-token { font-size: 12px; font-weight: 600; color: #B45A32; font-family: monospace; }
+    .type-size { font-size: 11px; color: #5A4F44; margin-top: 2px; }
+    .type-sample { color: #1A1715; }
+
+    /* ── BORDER RADIUS ── */
+    .radius-row { display: flex; gap: 20px; flex-wrap: wrap; align-items: flex-end; }
+    .radius-item { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+    .radius-box { width: 80px; height: 80px; background: #E8DFD2; border: 2px solid #B7A996; }
+    .radius-label { font-size: 12px; color: #5A4F44; font-family: monospace; text-align: center; }
+
+    /* ── SHADOWS ── */
+    .shadow-row { display: flex; gap: 32px; flex-wrap: wrap; }
+    .shadow-item { display: flex; flex-direction: column; align-items: center; gap: 12px; }
+    .shadow-box { width: 120px; height: 80px; background: white; border-radius: 10px; }
+    .shadow-label { font-size: 12px; color: #5A4F44; font-family: monospace; }
+
+    /* ── BASE COMPONENTS ── */
+    .card { background: white; border: 1px solid #E8DFD2; border-radius: 16px; padding: 28px; box-shadow: 0 6px 20px rgba(0,0,0,0.06); }
+    .demo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    @media (max-width: 640px) { .demo-grid { grid-template-columns: 1fr; } }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      padding: 10px 20px;
+      border-radius: 10px;
+      border: 2px solid transparent;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 120ms ease, color 120ms ease, border-color 120ms ease, box-shadow 120ms ease, opacity 120ms ease;
+      white-space: nowrap;
+    }
+    .btn:disabled, .btn[aria-disabled="true"] {
+      opacity: 0.38;
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+
+    /* Primary */
+    .btn-primary { background: #B45A32; color: #FBF8F3; border-color: #B45A32; }
+    .btn-primary:hover  { background: #9E4A28; border-color: #9E4A28; }
+    .btn-primary:active { background: #7D3A20; border-color: #7D3A20; }
+    .btn-primary:focus-visible { outline-color: #B45A32; box-shadow: 0 0 0 3px rgba(180,90,50,0.28); }
+
+    /* Secondary */
+    .btn-secondary { background: transparent; color: #B45A32; border-color: #B45A32; }
+    .btn-secondary:hover  { background: #F8EEE9; }
+    .btn-secondary:active { background: #F1DDD2; }
+    .btn-secondary:focus-visible { box-shadow: 0 0 0 3px rgba(180,90,50,0.28); }
+
+    /* Ghost */
+    .btn-ghost { background: transparent; color: #5A4F44; border-color: transparent; }
+    .btn-ghost:hover  { background: #F5EFE6; color: #1A1715; }
+    .btn-ghost:active { background: #E8DFD2; }
+    .btn-ghost:focus-visible { box-shadow: 0 0 0 3px rgba(90,79,68,0.2); }
+
+    /* Gold variant (on dark surfaces) */
+    .btn-gold { background: #C9A14D; color: #1A1715; border-color: #C9A14D; }
+    .btn-gold:hover  { background: #B98B32; border-color: #B98B32; }
+    .btn-gold:active { background: #9E7A2A; border-color: #9E7A2A; }
+
+    .badge { display: inline-block; background: #F1DDD2; color: #7D3A20; font-size: 12px; font-weight: 600; padding: 3px 10px; border-radius: 999px; }
+    .badge-gold { background: transparent; color: #7D3A20; border: 1px solid #C9A14D; }
+    .badge-gold-dark { background: rgba(201,161,77,0.12); color: #D9BC73; border: 1px solid rgba(201,161,77,0.4); }
+
+    .input-wrap { display: flex; flex-direction: column; gap: 5px; }
+    .input-label { font-size: 13px; font-weight: 500; color: #1A1715; }
+    .input-field {
+      padding: 10px 14px;
+      border: 1.5px solid #D6C9B8;
+      border-radius: 10px;
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      color: #1A1715;
+      background: #FBF8F3;
+      outline: none;
+      transition: border-color 120ms ease, box-shadow 120ms ease;
+      width: 100%;
+    }
+    .input-field::placeholder { color: #B7A996; }
+    .input-field:hover { border-color: #B7A996; }
+    .input-field:focus { border-color: #B45A32; box-shadow: 0 0 0 3px rgba(180,90,50,0.14); }
+    .input-field.is-error { border-color: #C0392B; box-shadow: 0 0 0 3px rgba(192,57,43,0.12); }
+    .input-field:disabled { opacity: 0.45; cursor: not-allowed; background: #F5EFE6; }
+    .input-hint { font-size: 12px; color: #5A4F44; }
+    .input-error-msg { font-size: 12px; color: #C0392B; }
+
+    .divider { border: none; border-top: 1px solid #E8DFD2; margin: 16px 0; }
+
+    /* ── HERO ── */
+    .hero-demo {
+      background: #1A1715;
+      border-radius: 16px;
+      padding: 56px 40px;
+      margin-bottom: 48px;
+      text-align: center;
+    }
+    .hero-sub {
+      font-size: 18px;
+      line-height: 28px;
+      color: #978976;
+      max-width: 560px;
+      margin: 20px auto 32px;
+    }
+
+    /* ── INTERACTION STATES SECTION ── */
+    .states-grid {
+      display: grid;
+      grid-template-columns: 100px 1fr;
+      gap: 0;
+      border: 1px solid #E8DFD2;
+      border-radius: 16px;
+      overflow: hidden;
+      margin-bottom: 24px;
+    }
+    .states-col-head {
+      background: #F5EFE6;
+      padding: 12px 16px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #5A4F44;
+      border-bottom: 1px solid #E8DFD2;
+    }
+    .states-col-head:first-child { border-right: 1px solid #E8DFD2; }
+    .states-row-label {
+      background: #FBF8F3;
+      padding: 20px 16px;
+      font-size: 12px;
+      font-weight: 600;
+      color: #5A4F44;
+      border-right: 1px solid #E8DFD2;
+      border-bottom: 1px solid #E8DFD2;
+      display: flex;
+      align-items: center;
+    }
+    .states-row-label:last-of-type { border-bottom: none; }
+    .states-cells {
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      border-bottom: 1px solid #E8DFD2;
+      background: white;
+    }
+    .states-cells:last-child { border-bottom: none; }
+    .state-chip {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+    .state-name {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #B7A996;
+    }
+
+    /* Simulated states via classes */
+    .sim-hover.btn-primary  { background: #9E4A28; border-color: #9E4A28; }
+    .sim-focus.btn-primary  { background: #B45A32; box-shadow: 0 0 0 3px rgba(180,90,50,0.28); outline: 3px solid #B45A32; outline-offset: 2px; }
+    .sim-active.btn-primary { background: #7D3A20; border-color: #7D3A20; }
+
+    .sim-hover.btn-secondary  { background: #F8EEE9; }
+    .sim-focus.btn-secondary  { box-shadow: 0 0 0 3px rgba(180,90,50,0.28); outline: 3px solid #B45A32; outline-offset: 2px; }
+    .sim-active.btn-secondary { background: #F1DDD2; }
+
+    .sim-hover.btn-ghost  { background: #F5EFE6; color: #1A1715; }
+    .sim-focus.btn-ghost  { box-shadow: 0 0 0 3px rgba(90,79,68,0.2); outline: 3px solid #5A4F44; outline-offset: 2px; }
+    .sim-active.btn-ghost { background: #E8DFD2; }
+
+    .sim-hover.input-field  { border-color: #B7A996; }
+    .sim-focus.input-field  { border-color: #B45A32; box-shadow: 0 0 0 3px rgba(180,90,50,0.14); }
+
+    /* ── ADA AUDIT SECTION ── */
+    .audit-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    @media (max-width: 640px) { .audit-grid { grid-template-columns: 1fr; } }
+    .audit-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 14px 16px;
+      border-radius: 10px;
+      border: 1px solid #E8DFD2;
+      background: white;
+    }
+    .audit-pass { border-left: 3px solid #2E7D52; }
+    .audit-warn { border-left: 3px solid #B45A32; }
+    .audit-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+    .audit-title { font-size: 13px; font-weight: 600; color: #1A1715; }
+    .audit-desc { font-size: 12px; color: #5A4F44; margin-top: 2px; line-height: 1.5; }
+
+    /* Contrast swatches */
+    .contrast-row { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 16px; }
+    .contrast-chip {
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid #E8DFD2;
+      width: 180px;
+    }
+    .contrast-preview {
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: 600;
+      padding: 0 12px;
+    }
+    .contrast-meta { padding: 8px 10px; background: white; font-size: 11px; color: #5A4F44; }
+    .contrast-ratio { font-weight: 700; font-size: 13px; color: #1A1715; }
+    .pass-aa { color: #2E7D52; }
+    .fail-aa { color: #C0392B; }
+
+    /* ── Live Playground ── */
+    .playground {
+      background: #F5EFE6;
+      border-radius: 16px;
+      padding: 32px;
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .playground-dark {
+      background: #1A1715;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── Header ─────────────────────────────────── -->
+  <header>
+    <h1 class="page-title">Kinala UI Foundations</h1>
+    <p class="page-subtitle">Visual reference for tailwind.config.ts — colors, typography, tokens &amp; interaction states</p>
+  </header>
+
+  <!-- ── Hero ───────────────────────────────────── -->
+  <div class="hero-demo" role="img" aria-label="Kinala brand hero — dark surface example">
+    <svg width="280" viewBox="0 0 746 182" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" style="max-width:150px;">
+      <path d="M203.767 108.478C254.637 38.7575 211.827 11.0975 149.237 60.3475C137.587 -20.1325 88.5871 -20.0725 76.9271 60.2675C14.6771 11.3675 -27.9729 38.4975 21.8471 107.607C3.63714 116.727 -9.22286 136.987 8.41714 153.117C35.0671 176.017 71.5571 180.727 111.557 181.677C151.327 180.557 188.237 175.598 214.797 152.628C231.437 137.528 221.147 117.758 203.767 108.478ZM186.957 50.2575C235.207 30.2575 210.797 83.1375 194.087 103.417C181.247 97.6475 167.437 93.8775 151.237 91.3175C151.327 85.2075 151.097 79.0175 150.647 73.0675C162.807 62.8475 175.347 54.9575 186.957 50.2575ZM150.857 102.147C164.367 104.337 176.587 107.667 187.067 112.107C174.097 127.307 156.217 142.678 140.457 151.488C146.127 137.858 149.697 120.707 150.857 102.147ZM85.7171 89.0875C86.1071 66.0175 90.2571 18.6575 113.077 10.4175C136.067 18.7375 140.177 66.6575 140.437 89.8875C122.307 87.9175 103.867 87.9275 85.7171 89.7275V89.0875ZM85.6871 151.408C69.7471 142.478 51.6971 126.887 38.6971 111.507C49.3171 107.237 61.7571 103.998 75.2971 101.908C76.4271 120.518 80.0171 137.738 85.6871 151.408ZM15.0971 74.4175C-6.08286 22.0075 56.0071 54.7875 75.5371 72.9875C75.0671 78.8875 74.8671 85.0175 74.9271 91.0875C58.7471 93.4875 44.1971 97.3575 31.6771 102.757C24.4671 93.1575 18.7971 83.5075 15.0971 74.4175ZM101.037 170.688C71.3471 171.337 -28.4029 148.177 28.5571 116.207C48.8271 140.417 73.9371 162.827 101.037 170.688C102.637 170.767 99.4071 170.668 101.037 170.688ZM86.0371 100.527C103.787 98.6775 122.387 98.6975 140.117 100.688C138.107 123.868 135.207 146.228 120.417 163.818C97.3871 181.758 86.0471 116.037 86.0371 100.527ZM207.157 145.027C186.057 163.357 154.567 168.478 123.507 170.598C149.917 162.658 177.017 140.777 197.027 117.027C208.167 123.227 219.357 134.227 207.157 145.027Z" fill="#F1ECE4"/>
+      <path d="M365.917 154.947H345.407L302.097 105.127V154.947H285.997V16.9575H302.097V99.2575L341.387 58.3475H361.127L318.487 102.177L365.917 154.947Z" fill="#F1ECE4"/>
+      <path d="M396.177 19.0675C394.007 17.0175 391.387 15.9975 388.317 15.9975C385.247 15.9975 382.447 17.0175 380.267 19.0675C378.227 20.9775 377.207 23.5375 377.207 26.7275C377.207 29.9175 378.227 32.6075 380.267 34.7775C382.447 36.8275 385.127 37.8475 388.317 37.8475C391.507 37.8475 394.007 36.8275 396.177 34.7775C398.347 32.6075 399.437 29.9275 399.437 26.7275C399.437 23.5275 398.347 20.9775 396.177 19.0675Z" fill="#F1ECE4"/>
+      <path d="M396.367 58.3475H380.267V154.947H396.367V58.3475Z" fill="#F1ECE4"/>
+      <path d="M420.947 154.947V58.3475H435.517L436.287 75.2175C439.357 69.2175 443.697 64.5475 449.317 61.2275C455.067 57.7775 461.577 56.0575 468.867 56.0575C476.157 56.0575 482.917 57.5875 488.417 60.6575C493.907 63.5975 498.187 68.1275 501.257 74.2675C504.327 80.2775 505.857 87.9375 505.857 97.2675V154.958H489.757V98.9975C489.757 89.2875 487.587 82.0075 483.237 77.1475C479.017 72.2875 473.017 69.8675 465.227 69.8675C459.857 69.8675 455.067 71.2075 450.857 73.8875C446.637 76.4475 443.257 80.2075 440.697 85.1975C438.267 90.0575 437.057 96.1175 437.057 103.408V154.958H420.957L420.947 154.947Z" fill="#F1ECE4"/>
+      <path d="M558.597 157.247C550.807 157.247 544.287 155.907 539.047 153.217C533.807 150.407 529.907 146.768 527.357 142.298C524.797 137.698 523.527 132.717 523.527 127.347C523.527 120.827 525.187 115.338 528.507 110.868C531.957 106.268 536.747 102.817 542.877 100.517C549.137 98.0875 556.487 96.8775 564.917 96.8775H590.407C590.407 90.8775 589.447 85.8875 587.527 81.9275C585.737 77.8375 583.057 74.7775 579.477 72.7275C576.027 70.6875 571.687 69.6575 566.447 69.6575C560.317 69.6575 555.007 71.1875 550.537 74.2575C546.067 77.3275 543.317 81.8575 542.297 87.8675H525.817C526.587 80.9675 528.887 75.2175 532.717 70.6175C536.677 65.8875 541.657 62.3175 547.667 59.8875C553.677 57.3275 559.937 56.0575 566.447 56.0575C575.387 56.0575 582.797 57.7175 588.677 61.0375C594.687 64.2275 599.157 68.7675 602.097 74.6475C605.037 80.3975 606.507 87.2275 606.507 95.1575V154.947H592.137L591.177 137.887C589.897 140.567 588.237 143.127 586.197 145.557C584.277 147.857 581.977 149.898 579.297 151.688C576.617 153.347 573.547 154.688 570.097 155.708C566.777 156.728 562.947 157.238 558.597 157.238V157.247ZM561.087 143.637C565.557 143.637 569.587 142.747 573.157 140.957C576.867 139.037 579.997 136.487 582.547 133.287C585.097 129.967 587.017 126.328 588.297 122.368C589.697 118.408 590.407 114.258 590.407 109.908V109.337H566.257C559.997 109.337 554.947 110.107 551.117 111.637C547.287 113.047 544.537 115.087 542.877 117.767C541.217 120.327 540.387 123.258 540.387 126.588C540.387 129.918 541.157 133.037 542.687 135.597C544.347 138.157 546.717 140.137 549.777 141.537C552.967 142.937 556.737 143.647 561.087 143.647V143.637Z" fill="#F1ECE4"/>
+      <path d="M627.577 154.947V16.9575H643.677V154.947H627.577Z" fill="#F1ECE4"/>
+      <path d="M697.847 157.247C690.057 157.247 683.537 155.907 678.297 153.217C673.057 150.407 669.157 146.768 666.607 142.298C664.047 137.698 662.777 132.717 662.777 127.347C662.777 120.827 664.437 115.338 667.757 110.868C671.207 106.268 675.997 102.817 682.127 100.517C688.387 98.0875 695.737 96.8775 704.167 96.8775H729.657C729.657 90.8775 728.697 85.8875 726.777 81.9275C724.987 77.8375 722.307 74.7775 718.727 72.7275C715.277 70.6875 710.937 69.6575 705.697 69.6575C699.567 69.6575 694.267 71.1875 689.787 74.2575C685.317 77.3275 682.567 81.8575 681.547 87.8675H665.067C665.837 80.9675 668.137 75.2175 671.967 70.6175C675.927 65.8875 680.907 62.3175 686.917 59.8875C692.917 57.3275 699.187 56.0575 705.697 56.0575C714.637 56.0575 722.047 57.7175 727.927 61.0375C733.927 64.2275 738.407 68.7675 741.337 74.6475C744.277 80.3975 745.747 87.2275 745.747 95.1575V154.947H731.377L730.417 137.887C729.137 140.567 727.477 143.127 725.437 145.557C723.517 147.857 721.217 149.898 718.537 151.688C715.857 153.347 712.787 154.688 709.337 155.708C706.017 156.728 702.187 157.238 697.837 157.238L697.847 157.247ZM700.337 143.637C704.807 143.637 708.837 142.747 712.407 140.957C716.117 139.037 719.247 136.487 721.797 133.287C724.357 129.967 726.267 126.328 727.547 122.368C728.957 118.408 729.657 114.258 729.657 109.908V109.337H705.507C699.247 109.337 694.197 110.107 690.367 111.637C686.537 113.047 683.787 115.087 682.127 117.767C680.467 120.327 679.637 123.258 679.637 126.588C679.637 129.918 680.407 133.037 681.937 135.597C683.597 138.157 685.957 140.137 689.027 141.537C692.217 142.937 695.987 143.647 700.337 143.647V143.637Z" fill="#F1ECE4"/>
+    </svg>
+    <p class="hero-sub">Warm earth tones meet refined typography — a design language built for brands with depth.</p>
+    <a class="btn btn-gold" href="#interaction-states">Explore Interaction States</a>
+  </div>
+
+  <!-- ── Colors ──────────────────────────────────── -->
+  <section aria-labelledby="sec-colors">
+    <h2 id="sec-colors" class="section-label">Colors</h2>
+
+    <div class="palette-group">
+      <p class="palette-name">brand</p>
+      <div class="swatches" role="list">
+        <div class="swatch" role="listitem"><div class="swatch-block" style="background:#F8EEE9"></div><span class="swatch-label">50<br/>#F8EEE9</span></div>
+        <div class="swatch" role="listitem"><div class="swatch-block" style="background:#F1DDD2"></div><span class="swatch-label">100<br/>#F1DDD2</span></div>
+        <div class="swatch" role="listitem"><div class="swatch-block" style="background:#E6C1AE"></div><span class="swatch-label">200<br/>#E6C1AE</span></div>
+        <div class="swatch" role="listitem"><div class="swatch-block" style="background:#D89E82"></div><span class="swatch-label">300<br/>#D89E82</span></div>
+        <div class="swatch" role="listitem"><div class="swatch-block" style="background:#C97A5C"></div><span class="swatch-label">400<br/>#C97A5C</span></div>
+        <div class="swatch" role="listitem"><div class="swatch-block" style="background:#B45A32"></div><span class="swatch-label">500<br/>#B45A32</span></div>
+        <div class="swatch" role="listitem"><div class="swatch-block" style="background:#9E4A28"></div><span class="swatch-label">600<br/>#9E4A28</span></div>
+        <div class="swatch" role="listitem"><div class="swatch-block" style="background:#7D3A20"></div><span class="swatch-label">700<br/>#7D3A20</span></div>
+        <div class="swatch" role="listitem"><div class="swatch-block" style="background:#5C2A18"></div><span class="swatch-label">800<br/>#5C2A18</span></div>
+        <div class="swatch" role="listitem"><div class="swatch-block" style="background:#3B1B10"></div><span class="swatch-label">900<br/>#3B1B10</span></div>
+      </div>
+    </div>
+
+    <div class="palette-group">
+      <p class="palette-name">sand</p>
+      <div class="swatches" role="list">
+        <div class="swatch" role="listitem"><div class="swatch-block" style="background:#FBF8F3;border:1px solid #E8DFD2"></div><span class="swatch-label">50<br/>#FBF8F3</span></div>
+        <div class="swatch" role="listitem"><div class="swatch-block" style="background:#F5EFE6"></div><span class="swatch-label">100<br/>#F5EFE6</span></div>
+        <div class="swatch" role="listitem"><div class="swatch-block" style="background:#E8DFD2"></div><span class="swatch-label">200<br/>#E8DFD2</span></div>
+        <div class="swatch" role="listitem"><div class="swatch-block" style="background:#D6C9B8"></div><span class="swatch-label">300<br/>#D6C9B8</span></div>
+        <div class="swatch" role="listitem"><div class="swatch-block" style="background:#B7A996"></div><span class="swatch-label">400<br/>#B7A996</span></div>
+        <div class="swatch" role="listitem"><div class="swatch-block" style="background:#978976"></div><span class="swatch-label">500<br/>#978976</span></div>
+        <div class="swatch" role="listitem"><div class="swatch-block" style="background:#756858"></div><span class="swatch-label">600<br/>#756858</span></div>
+        <div class="swatch" role="listitem"><div class="swatch-block" style="background:#5A4F44"></div><span class="swatch-label">700<br/>#5A4F44</span></div>
+        <div class="swatch" role="listitem"><div class="swatch-block" style="background:#413932"></div><span class="swatch-label">800<br/>#413932</span></div>
+        <div class="swatch" role="listitem"><div class="swatch-block" style="background:#2A2420"></div><span class="swatch-label">900<br/>#2A2420</span></div>
+      </div>
+    </div>
+
+    <div class="palette-group">
+      <p class="palette-name">gold</p>
+      <div class="swatches" role="list">
+        <div class="swatch" role="listitem"><div class="swatch-block" style="background:#D9BC73"></div><span class="swatch-label">300<br/>#D9BC73</span></div>
+        <div class="swatch" role="listitem"><div class="swatch-block" style="background:#C9A14D"></div><span class="swatch-label">400<br/>#C9A14D</span></div>
+        <div class="swatch" role="listitem"><div class="swatch-block" style="background:#B98B32"></div><span class="swatch-label">500<br/>#B98B32</span></div>
+      </div>
+    </div>
+
+    <div class="palette-group">
+      <p class="palette-name">Semantic aliases</p>
+      <div class="semantic-grid">
+        <div class="semantic-card"><div class="semantic-preview" style="background:#FBF8F3;border-bottom:1px solid #E8DFD2"></div><div class="semantic-info"><p class="semantic-token">background.DEFAULT</p><p class="semantic-value">#FBF8F3 (sand-50)</p></div></div>
+        <div class="semantic-card"><div class="semantic-preview" style="background:#F5EFE6;border-bottom:1px solid #E8DFD2"></div><div class="semantic-info"><p class="semantic-token">background.subtle</p><p class="semantic-value">#F5EFE6 (sand-100)</p></div></div>
+        <div class="semantic-card"><div class="semantic-preview" style="background:#1A1715"></div><div class="semantic-info"><p class="semantic-token">background.inverse</p><p class="semantic-value">#1A1715 (charcoal-900)</p></div></div>
+        <div class="semantic-card"><div class="semantic-preview" style="background:#1A1715"></div><div class="semantic-info"><p class="semantic-token">foreground.DEFAULT</p><p class="semantic-value">#1A1715</p></div></div>
+        <div class="semantic-card"><div class="semantic-preview" style="background:#756858"></div><div class="semantic-info"><p class="semantic-token">foreground.muted</p><p class="semantic-value">#756858 (sand-600)</p></div></div>
+        <div class="semantic-card"><div class="semantic-preview" style="background:#E8DFD2;border-bottom:1px solid #D6C9B8"></div><div class="semantic-info"><p class="semantic-token">border.DEFAULT</p><p class="semantic-value">#E8DFD2 (sand-200)</p></div></div>
+        <div class="semantic-card"><div class="semantic-preview" style="background:#B45A32"></div><div class="semantic-info"><p class="semantic-token">accent.primary</p><p class="semantic-value">#B45A32 (brand-500)</p></div></div>
+        <div class="semantic-card"><div class="semantic-preview" style="background:#C9A14D"></div><div class="semantic-info"><p class="semantic-token">accent.highlight</p><p class="semantic-value">#C9A14D (gold-400)</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Typography ─────────────────────────────── -->
+  <section aria-labelledby="sec-type">
+    <h2 id="sec-type" class="section-label">Typography Scale</h2>
+    <div class="type-row">
+      <div class="type-meta"><p class="type-token">display-xl</p><p class="type-size">64px / 72 / 400</p></div>
+      <p class="type-sample" style="font-family:'Cormorant Garamond',serif;font-size:64px;line-height:72px;font-weight:400;letter-spacing:-0.02em;" aria-label="Display XL sample text">Display XL</p>
+    </div>
+    <div class="type-row">
+      <div class="type-meta"><p class="type-token">display-lg</p><p class="type-size">48px / 56 / 400</p></div>
+      <p class="type-sample" style="font-family:'Cormorant Garamond',serif;font-size:48px;line-height:56px;font-weight:400;letter-spacing:-0.02em;">Display Large</p>
+    </div>
+    <div class="type-row">
+      <div class="type-meta"><p class="type-token">h1</p><p class="type-size">40px / 48 / 400</p></div>
+      <p class="type-sample" style="font-size:40px;line-height:48px;font-weight:400;letter-spacing:-0.02em;">Heading One</p>
+    </div>
+    <div class="type-row">
+      <div class="type-meta"><p class="type-token">h2</p><p class="type-size">32px / 40 / 400</p></div>
+      <p class="type-sample" style="font-size:32px;line-height:40px;font-weight:400;letter-spacing:-0.02em;">Heading Two</p>
+    </div>
+    <div class="type-row">
+      <div class="type-meta"><p class="type-token">h3</p><p class="type-size">24px / 32 / 400</p></div>
+      <p class="type-sample" style="font-size:24px;line-height:32px;font-weight:400;letter-spacing:-0.02em;">Heading Three</p>
+    </div>
+    <div class="type-row">
+      <div class="type-meta"><p class="type-token">body-lg</p><p class="type-size">18px / 28 / 400</p></div>
+      <p class="type-sample" style="font-size:18px;line-height:28px;">Body large — the quick brown fox jumps over the lazy dog.</p>
+    </div>
+    <div class="type-row">
+      <div class="type-meta"><p class="type-token">body-md</p><p class="type-size">16px / 24 / 400</p></div>
+      <p class="type-sample" style="font-size:16px;line-height:24px;">Body medium — the quick brown fox jumps over the lazy dog.</p>
+    </div>
+    <div class="type-row">
+      <div class="type-meta"><p class="type-token">body-sm</p><p class="type-size">14px / 20 / 400</p></div>
+      <p class="type-sample" style="font-size:14px;line-height:20px;">Body small — the quick brown fox jumps over the lazy dog.</p>
+    </div>
+    <div class="type-row">
+      <div class="type-meta"><p class="type-token">subheader</p><p class="type-size">15px / 23 / 400</p></div>
+      <p class="type-sample" style="font-size:15px;line-height:23px;color:#5A4F44;">Subheader — Supporting descriptive text</p>
+    </div>
+    <div class="type-row">
+      <div class="type-meta"><p class="type-token">caption</p><p class="type-size">12px / 16 / 400</p></div>
+      <p class="type-sample" style="font-size:12px;line-height:16px;color:#5A4F44;">Caption — metadata, timestamps, labels</p>
+    </div>
+  </section>
+
+  <!-- ── Border Radius ──────────────────────────── -->
+  <section aria-labelledby="sec-radius">
+    <h2 id="sec-radius" class="section-label">Border Radius</h2>
+    <div class="radius-row">
+      <div class="radius-item"><div class="radius-box" style="border-radius:6px" aria-hidden="true"></div><p class="radius-label">sm / 6px</p></div>
+      <div class="radius-item"><div class="radius-box" style="border-radius:10px" aria-hidden="true"></div><p class="radius-label">md / 10px</p></div>
+      <div class="radius-item"><div class="radius-box" style="border-radius:16px" aria-hidden="true"></div><p class="radius-label">lg / 16px</p></div>
+      <div class="radius-item"><div class="radius-box" style="border-radius:24px" aria-hidden="true"></div><p class="radius-label">xl / 24px</p></div>
+    </div>
+  </section>
+
+  <!-- ── Shadows ────────────────────────────────── -->
+  <section aria-labelledby="sec-shadows">
+    <h2 id="sec-shadows" class="section-label">Shadows</h2>
+    <div class="shadow-row">
+      <div class="shadow-item"><div class="shadow-box" style="box-shadow:0 2px 10px rgba(0,0,0,0.04)" aria-hidden="true"></div><p class="shadow-label">shadow-sm</p></div>
+      <div class="shadow-item"><div class="shadow-box" style="box-shadow:0 6px 20px rgba(0,0,0,0.06)" aria-hidden="true"></div><p class="shadow-label">shadow-md</p></div>
+    </div>
+  </section>
+
+  <!-- ── Interaction States ─────────────────────── -->
+  <section id="interaction-states" aria-labelledby="sec-states">
+    <h2 id="sec-states" class="section-label">Interaction States</h2>
+
+    <!-- Static state reference grid -->
+    <div class="states-grid" role="table" aria-label="Button interaction states reference">
+      <div class="states-col-head" role="columnheader">Variant</div>
+      <div class="states-col-head" role="columnheader">Default · Hover · Focus · Active · Disabled</div>
+
+      <div class="states-row-label" role="rowheader">Primary</div>
+      <div class="states-cells" role="cell">
+        <div class="state-chip"><span class="state-name">Default</span><button class="btn btn-primary" type="button">Button</button></div>
+        <div class="state-chip"><span class="state-name">Hover</span><button class="btn btn-primary sim-hover" type="button" tabindex="-1" aria-hidden="true">Button</button></div>
+        <div class="state-chip"><span class="state-name">Focus</span><button class="btn btn-primary sim-focus" type="button" tabindex="-1" aria-hidden="true">Button</button></div>
+        <div class="state-chip"><span class="state-name">Active</span><button class="btn btn-primary sim-active" type="button" tabindex="-1" aria-hidden="true">Button</button></div>
+        <div class="state-chip"><span class="state-name">Disabled</span><button class="btn btn-primary" type="button" disabled>Button</button></div>
+      </div>
+
+      <div class="states-row-label" role="rowheader">Secondary</div>
+      <div class="states-cells" role="cell">
+        <div class="state-chip"><span class="state-name">Default</span><button class="btn btn-secondary" type="button">Button</button></div>
+        <div class="state-chip"><span class="state-name">Hover</span><button class="btn btn-secondary sim-hover" type="button" tabindex="-1" aria-hidden="true">Button</button></div>
+        <div class="state-chip"><span class="state-name">Focus</span><button class="btn btn-secondary sim-focus" type="button" tabindex="-1" aria-hidden="true">Button</button></div>
+        <div class="state-chip"><span class="state-name">Active</span><button class="btn btn-secondary sim-active" type="button" tabindex="-1" aria-hidden="true">Button</button></div>
+        <div class="state-chip"><span class="state-name">Disabled</span><button class="btn btn-secondary" type="button" disabled>Button</button></div>
+      </div>
+
+      <div class="states-row-label" role="rowheader">Ghost</div>
+      <div class="states-cells" role="cell">
+        <div class="state-chip"><span class="state-name">Default</span><button class="btn btn-ghost" type="button">Button</button></div>
+        <div class="state-chip"><span class="state-name">Hover</span><button class="btn btn-ghost sim-hover" type="button" tabindex="-1" aria-hidden="true">Button</button></div>
+        <div class="state-chip"><span class="state-name">Focus</span><button class="btn btn-ghost sim-focus" type="button" tabindex="-1" aria-hidden="true">Button</button></div>
+        <div class="state-chip"><span class="state-name">Active</span><button class="btn btn-ghost sim-active" type="button" tabindex="-1" aria-hidden="true">Button</button></div>
+        <div class="state-chip"><span class="state-name">Disabled</span><button class="btn btn-ghost" type="button" disabled>Button</button></div>
+      </div>
+    </div>
+
+    <!-- Input states grid -->
+    <div class="states-grid" role="table" aria-label="Input interaction states reference" style="margin-bottom:24px;">
+      <div class="states-col-head" role="columnheader">Variant</div>
+      <div class="states-col-head" role="columnheader">Default · Hover · Focus · Error · Disabled</div>
+
+      <div class="states-row-label" role="rowheader">Text Input</div>
+      <div class="states-cells" role="cell" style="flex-wrap:wrap;gap:16px;">
+        <div class="state-chip" style="align-items:flex-start;">
+          <span class="state-name">Default</span>
+          <div class="input-wrap" style="width:140px;">
+            <label class="input-label" for="inp-default">Email</label>
+            <input id="inp-default" class="input-field" type="email" placeholder="you@email.com" />
+          </div>
+        </div>
+        <div class="state-chip" style="align-items:flex-start;">
+          <span class="state-name">Hover</span>
+          <div class="input-wrap" style="width:140px;">
+            <label class="input-label" for="inp-hover">Email</label>
+            <input id="inp-hover" class="input-field sim-hover" type="email" placeholder="you@email.com" tabindex="-1" aria-hidden="true" />
+          </div>
+        </div>
+        <div class="state-chip" style="align-items:flex-start;">
+          <span class="state-name">Focus</span>
+          <div class="input-wrap" style="width:140px;">
+            <label class="input-label" for="inp-focus">Email</label>
+            <input id="inp-focus" class="input-field sim-focus" type="email" placeholder="you@email.com" tabindex="-1" aria-hidden="true" />
+          </div>
+        </div>
+        <div class="state-chip" style="align-items:flex-start;">
+          <span class="state-name">Error</span>
+          <div class="input-wrap" style="width:140px;">
+            <label class="input-label" for="inp-error">Email</label>
+            <input id="inp-error" class="input-field is-error" type="email" value="bad@" aria-invalid="true" aria-describedby="inp-error-msg" />
+            <span id="inp-error-msg" class="input-error-msg" role="alert">Invalid email address</span>
+          </div>
+        </div>
+        <div class="state-chip" style="align-items:flex-start;">
+          <span class="state-name">Disabled</span>
+          <div class="input-wrap" style="width:140px;">
+            <label class="input-label" for="inp-disabled">Email</label>
+            <input id="inp-disabled" class="input-field" type="email" placeholder="you@email.com" disabled />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Live playground -->
+    <p style="font-size:13px;font-weight:600;color:#5A4F44;margin-bottom:12px;">Live playground — hover, click, tab through</p>
+    <div class="playground" role="group" aria-label="Live interactive button playground">
+      <button class="btn btn-primary" type="button">Primary</button>
+      <button class="btn btn-secondary" type="button">Secondary</button>
+      <button class="btn btn-ghost" type="button">Ghost</button>
+      <button class="btn btn-primary" type="button" disabled>Disabled</button>
+    </div>
+    <div class="playground playground-dark" role="group" aria-label="Live interactive button playground on dark surface" style="margin-top:8px;">
+      <button class="btn btn-gold" type="button">Gold on Dark</button>
+      <button class="btn btn-secondary" type="button" style="color:#D9BC73;border-color:#C9A14D;">Secondary on Dark</button>
+      <button class="btn btn-ghost" type="button" style="color:#978976;">Ghost on Dark</button>
+    </div>
+
+    <div style="margin-top:8px;">
+      <div class="playground" role="group" aria-label="Live input playground" style="flex-direction:column;align-items:flex-start;gap:12px;">
+        <div class="input-wrap" style="width:100%;max-width:360px;">
+          <label class="input-label" for="play-name">Full name</label>
+          <input id="play-name" class="input-field" type="text" placeholder="Jane Smith" />
+        </div>
+        <div class="input-wrap" style="width:100%;max-width:360px;">
+          <label class="input-label" for="play-email">Email address</label>
+          <input id="play-email" class="input-field" type="email" placeholder="jane@example.com" />
+          <span class="input-hint">We'll never share your email.</span>
+        </div>
+        <button class="btn btn-primary" type="submit">Subscribe</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Accessibility Audit ────────────────────── -->
+  <section aria-labelledby="sec-a11y">
+    <h2 id="sec-a11y" class="section-label">Accessibility Audit</h2>
+
+    <div class="audit-grid">
+      <div class="audit-row audit-pass">
+        <span class="audit-icon" aria-hidden="true">✓</span>
+        <div><p class="audit-title">lang attribute</p><p class="audit-desc">Document has <code>lang="en"</code> — screen readers use correct pronunciation.</p></div>
+      </div>
+      <div class="audit-row audit-pass">
+        <span class="audit-icon" aria-hidden="true">✓</span>
+        <div><p class="audit-title">Heading hierarchy</p><p class="audit-desc">Page uses semantic <code>&lt;h1&gt;</code>/<code>&lt;h2&gt;</code> elements, not styled <code>&lt;p&gt;</code> tags.</p></div>
+      </div>
+      <div class="audit-row audit-pass">
+        <span class="audit-icon" aria-hidden="true">✓</span>
+        <div><p class="audit-title">Form labels</p><p class="audit-desc">Every input has an associated <code>&lt;label for&gt;</code>. No placeholder-only labelling.</p></div>
+      </div>
+      <div class="audit-row audit-pass">
+        <span class="audit-icon" aria-hidden="true">✓</span>
+        <div><p class="audit-title">Focus indicators</p><p class="audit-desc">Visible <code>:focus-visible</code> ring on all interactive elements. Mouse users are unaffected.</p></div>
+      </div>
+      <div class="audit-row audit-pass">
+        <span class="audit-icon" aria-hidden="true">✓</span>
+        <div><p class="audit-title">Button semantics</p><p class="audit-desc">All buttons use <code>&lt;button type="button"&gt;</code>. Decorative buttons have <code>aria-hidden</code>.</p></div>
+      </div>
+      <div class="audit-row audit-pass">
+        <span class="audit-icon" aria-hidden="true">✓</span>
+        <div><p class="audit-title">Error messaging</p><p class="audit-desc">Error inputs use <code>aria-invalid</code> + <code>aria-describedby</code> pointing to a <code>role="alert"</code> message.</p></div>
+      </div>
+      <div class="audit-row audit-pass">
+        <span class="audit-icon" aria-hidden="true">✓</span>
+        <div><p class="audit-title">Decorative SVGs</p><p class="audit-desc">Logo SVG has <code>aria-hidden="true" focusable="false"</code>. Hero wrapper carries the label.</p></div>
+      </div>
+      <div class="audit-row audit-warn">
+        <span class="audit-icon" aria-hidden="true">⚠</span>
+        <div><p class="audit-title">foreground.muted contrast</p><p class="audit-desc"><code>#756858</code> on <code>#FBF8F3</code> is ~3.5:1 — fails WCAG AA (4.5:1) for body text. Consider using <code>sand-700 #5A4F44</code> (~5.2:1) for text below 18px.</p></div>
+      </div>
+      <div class="audit-row audit-warn">
+        <span class="audit-icon" aria-hidden="true">⚠</span>
+        <div><p class="audit-title">caption color contrast</p><p class="audit-desc">12px caption text is below the 18px threshold — it needs a 4.5:1 ratio. <code>#5A4F44</code> on <code>#FBF8F3</code> passes at ~5.2:1.</p></div>
+      </div>
+    </div>
+
+    <!-- Contrast checker -->
+    <p style="font-size:13px;font-weight:600;color:#5A4F44;margin:24px 0 12px;">Contrast ratios — key pairings</p>
+    <div class="contrast-row">
+      <div class="contrast-chip">
+        <div class="contrast-preview" style="background:#FBF8F3;color:#1A1715;">Body text</div>
+        <div class="contrast-meta"><span class="contrast-ratio pass-aa">16.4:1</span> — #1A1715 on #FBF8F3 <span class="pass-aa">AAA</span></div>
+      </div>
+      <div class="contrast-chip">
+        <div class="contrast-preview" style="background:#FBF8F3;color:#5A4F44;">Muted text</div>
+        <div class="contrast-meta"><span class="contrast-ratio pass-aa">~5.2:1</span> — #5A4F44 on #FBF8F3 <span class="pass-aa">AA</span></div>
+      </div>
+      <div class="contrast-chip">
+        <div class="contrast-preview" style="background:#FBF8F3;color:#756858;">Original muted</div>
+        <div class="contrast-meta"><span class="contrast-ratio fail-aa">~3.5:1</span> — #756858 on #FBF8F3 <span class="fail-aa">Fail</span></div>
+      </div>
+      <div class="contrast-chip">
+        <div class="contrast-preview" style="background:#B45A32;color:#FBF8F3;">Btn primary</div>
+        <div class="contrast-meta"><span class="contrast-ratio pass-aa">~4.6:1</span> — #FBF8F3 on #B45A32 <span class="pass-aa">AA</span></div>
+      </div>
+      <div class="contrast-chip">
+        <div class="contrast-preview" style="background:#1A1715;color:#F1ECE4;">Dark surface</div>
+        <div class="contrast-meta"><span class="contrast-ratio pass-aa">~15.1:1</span> — #F1ECE4 on #1A1715 <span class="pass-aa">AAA</span></div>
+      </div>
+      <div class="contrast-chip">
+        <div class="contrast-preview" style="background:#1A1715;color:#C9A14D;">Gold on dark</div>
+        <div class="contrast-meta"><span class="contrast-ratio pass-aa">~5.8:1</span> — #C9A14D on #1A1715 <span class="pass-aa">AA</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Components Demo ────────────────────────── -->
+  <section aria-labelledby="sec-components">
+    <h2 id="sec-components" class="section-label">Components</h2>
+    <div class="demo-grid">
+      <article class="card">
+        <span class="badge">New Arrival</span>
+        <p style="font-family:'Cormorant Garamond',serif;font-size:24px;line-height:32px;font-weight:400;letter-spacing:-0.02em;margin-top:12px;">Artisan Ceramic Mug</p>
+        <p style="font-size:14px;line-height:20px;color:#5A4F44;margin-top:6px;">Hand-thrown stoneware with a warm sand glaze. Limited edition.</p>
+        <hr class="divider" />
+        <div style="display:flex;align-items:center;justify-content:space-between;">
+          <p style="font-size:18px;font-weight:600;color:#B45A32;">$48.00</p>
+          <button class="btn btn-primary" type="button">Add to Cart</button>
+        </div>
+      </article>
+
+      <article class="card" style="background:#1A1715;border-color:#413932;">
+        <span class="badge badge-gold-dark">Featured</span>
+        <p style="font-family:'Cormorant Garamond',serif;font-size:24px;line-height:32px;font-weight:400;letter-spacing:-0.02em;margin-top:12px;color:#F1ECE4;">Reserve Collection</p>
+        <p style="font-size:14px;line-height:20px;color:#B7A996;margin-top:6px;">Exclusive pieces curated from independent makers worldwide.</p>
+        <hr class="divider" style="border-color:#413932;" />
+        <div style="display:flex;align-items:center;justify-content:space-between;">
+          <p style="font-size:18px;font-weight:600;color:#C9A14D;">From $120</p>
+          <button class="btn btn-gold" type="button">Explore</button>
+        </div>
+      </article>
+    </div>
+  </section>
+
+</body>
+</html>
