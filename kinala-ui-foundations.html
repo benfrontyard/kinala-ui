@@ -21,15 +21,18 @@
       font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
       font-size: 16px;
       line-height: 24px;
-      padding: 48px 32px;
+      padding: 32px 20px;
       max-width: 1200px;
       margin: 0 auto;
+    }
+    @media (min-width: 640px) {
+      body { padding: 48px 32px; }
     }
 
     .page-title {
       font-family: 'Cormorant Garamond', serif;
-      font-size: 48px;
-      line-height: 56px;
+      font-size: clamp(2rem, 6vw, 48px);
+      line-height: 1.15;
       font-weight: 700;
       margin-bottom: 8px;
     }
@@ -37,7 +40,7 @@
     .page-subtitle {
       font-size: 18px;
       line-height: 28px;
-      color: #5A4F44; /* darkened from #756858 for AA contrast */
+      color: #5A4F44;
       margin-bottom: 64px;
     }
 
@@ -72,6 +75,10 @@
     /* ── TYPOGRAPHY ── */
     .type-row { display: flex; align-items: baseline; gap: 24px; padding: 16px 0; border-bottom: 1px solid #F5EFE6; }
     .type-meta { min-width: 140px; flex-shrink: 0; }
+    @media (max-width: 560px) {
+      .type-row { flex-direction: column; align-items: flex-start; gap: 8px; }
+      .type-meta { min-width: 0; }
+    }
     .type-token { font-size: 12px; font-weight: 600; color: #B45A32; font-family: monospace; }
     .type-size { font-size: 11px; color: #5A4F44; margin-top: 2px; }
     .type-sample { color: #1A1715; }
@@ -185,12 +192,15 @@
     /* ── INTERACTION STATES SECTION ── */
     .states-grid {
       display: grid;
-      grid-template-columns: 100px 1fr;
+      grid-template-columns: 1fr;
       gap: 0;
       border: 1px solid #E8DFD2;
       border-radius: 16px;
       overflow: hidden;
       margin-bottom: 24px;
+    }
+    @media (min-width: 720px) {
+      .states-grid { grid-template-columns: 100px 1fr; }
     }
     .states-col-head {
       background: #F5EFE6;
@@ -202,17 +212,25 @@
       color: #5A4F44;
       border-bottom: 1px solid #E8DFD2;
     }
-    .states-col-head:first-child { border-right: 1px solid #E8DFD2; }
+    @media (min-width: 720px) {
+      .states-col-head:first-child { border-right: 1px solid #E8DFD2; }
+    }
     .states-row-label {
-      background: #FBF8F3;
-      padding: 20px 16px;
+      background: #F5EFE6;
+      padding: 12px 16px;
       font-size: 12px;
       font-weight: 600;
       color: #5A4F44;
-      border-right: 1px solid #E8DFD2;
       border-bottom: 1px solid #E8DFD2;
       display: flex;
       align-items: center;
+    }
+    @media (min-width: 720px) {
+      .states-row-label {
+        background: #FBF8F3;
+        padding: 20px 16px;
+        border-right: 1px solid #E8DFD2;
+      }
     }
     .states-row-label:last-of-type { border-bottom: none; }
     .states-cells {
@@ -254,46 +272,6 @@
 
     .sim-hover.input-field  { border-color: #B7A996; }
     .sim-focus.input-field  { border-color: #B45A32; box-shadow: 0 0 0 3px rgba(180,90,50,0.14); }
-
-    /* ── ADA AUDIT SECTION ── */
-    .audit-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-    @media (max-width: 640px) { .audit-grid { grid-template-columns: 1fr; } }
-    .audit-row {
-      display: flex;
-      align-items: flex-start;
-      gap: 12px;
-      padding: 14px 16px;
-      border-radius: 10px;
-      border: 1px solid #E8DFD2;
-      background: white;
-    }
-    .audit-pass { border-left: 3px solid #2E7D52; }
-    .audit-warn { border-left: 3px solid #B45A32; }
-    .audit-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
-    .audit-title { font-size: 13px; font-weight: 600; color: #1A1715; }
-    .audit-desc { font-size: 12px; color: #5A4F44; margin-top: 2px; line-height: 1.5; }
-
-    /* Contrast swatches */
-    .contrast-row { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 16px; }
-    .contrast-chip {
-      border-radius: 10px;
-      overflow: hidden;
-      border: 1px solid #E8DFD2;
-      width: 180px;
-    }
-    .contrast-preview {
-      height: 48px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 14px;
-      font-weight: 600;
-      padding: 0 12px;
-    }
-    .contrast-meta { padding: 8px 10px; background: white; font-size: 11px; color: #5A4F44; }
-    .contrast-ratio { font-weight: 700; font-size: 13px; color: #1A1715; }
-    .pass-aa { color: #2E7D52; }
-    .fail-aa { color: #C0392B; }
 
     /* ── Live Playground ── */
     .playground {
@@ -568,79 +546,6 @@
           <span class="input-hint">We'll never share your email.</span>
         </div>
         <button class="btn btn-primary" type="submit">Subscribe</button>
-      </div>
-    </div>
-  </section>
-
-  <!-- ── Accessibility Audit ────────────────────── -->
-  <section aria-labelledby="sec-a11y">
-    <h2 id="sec-a11y" class="section-label">Accessibility Audit</h2>
-
-    <div class="audit-grid">
-      <div class="audit-row audit-pass">
-        <span class="audit-icon" aria-hidden="true">✓</span>
-        <div><p class="audit-title">lang attribute</p><p class="audit-desc">Document has <code>lang="en"</code> — screen readers use correct pronunciation.</p></div>
-      </div>
-      <div class="audit-row audit-pass">
-        <span class="audit-icon" aria-hidden="true">✓</span>
-        <div><p class="audit-title">Heading hierarchy</p><p class="audit-desc">Page uses semantic <code>&lt;h1&gt;</code>/<code>&lt;h2&gt;</code> elements, not styled <code>&lt;p&gt;</code> tags.</p></div>
-      </div>
-      <div class="audit-row audit-pass">
-        <span class="audit-icon" aria-hidden="true">✓</span>
-        <div><p class="audit-title">Form labels</p><p class="audit-desc">Every input has an associated <code>&lt;label for&gt;</code>. No placeholder-only labelling.</p></div>
-      </div>
-      <div class="audit-row audit-pass">
-        <span class="audit-icon" aria-hidden="true">✓</span>
-        <div><p class="audit-title">Focus indicators</p><p class="audit-desc">Visible <code>:focus-visible</code> ring on all interactive elements. Mouse users are unaffected.</p></div>
-      </div>
-      <div class="audit-row audit-pass">
-        <span class="audit-icon" aria-hidden="true">✓</span>
-        <div><p class="audit-title">Button semantics</p><p class="audit-desc">All buttons use <code>&lt;button type="button"&gt;</code>. Decorative buttons have <code>aria-hidden</code>.</p></div>
-      </div>
-      <div class="audit-row audit-pass">
-        <span class="audit-icon" aria-hidden="true">✓</span>
-        <div><p class="audit-title">Error messaging</p><p class="audit-desc">Error inputs use <code>aria-invalid</code> + <code>aria-describedby</code> pointing to a <code>role="alert"</code> message.</p></div>
-      </div>
-      <div class="audit-row audit-pass">
-        <span class="audit-icon" aria-hidden="true">✓</span>
-        <div><p class="audit-title">Decorative SVGs</p><p class="audit-desc">Logo SVG has <code>aria-hidden="true" focusable="false"</code>. Hero wrapper carries the label.</p></div>
-      </div>
-      <div class="audit-row audit-warn">
-        <span class="audit-icon" aria-hidden="true">⚠</span>
-        <div><p class="audit-title">foreground.muted contrast</p><p class="audit-desc"><code>#756858</code> on <code>#FBF8F3</code> is ~3.5:1 — fails WCAG AA (4.5:1) for body text. Consider using <code>sand-700 #5A4F44</code> (~5.2:1) for text below 18px.</p></div>
-      </div>
-      <div class="audit-row audit-warn">
-        <span class="audit-icon" aria-hidden="true">⚠</span>
-        <div><p class="audit-title">caption color contrast</p><p class="audit-desc">12px caption text is below the 18px threshold — it needs a 4.5:1 ratio. <code>#5A4F44</code> on <code>#FBF8F3</code> passes at ~5.2:1.</p></div>
-      </div>
-    </div>
-
-    <!-- Contrast checker -->
-    <p style="font-size:13px;font-weight:600;color:#5A4F44;margin:24px 0 12px;">Contrast ratios — key pairings</p>
-    <div class="contrast-row">
-      <div class="contrast-chip">
-        <div class="contrast-preview" style="background:#FBF8F3;color:#1A1715;">Body text</div>
-        <div class="contrast-meta"><span class="contrast-ratio pass-aa">16.4:1</span> — #1A1715 on #FBF8F3 <span class="pass-aa">AAA</span></div>
-      </div>
-      <div class="contrast-chip">
-        <div class="contrast-preview" style="background:#FBF8F3;color:#5A4F44;">Muted text</div>
-        <div class="contrast-meta"><span class="contrast-ratio pass-aa">~5.2:1</span> — #5A4F44 on #FBF8F3 <span class="pass-aa">AA</span></div>
-      </div>
-      <div class="contrast-chip">
-        <div class="contrast-preview" style="background:#FBF8F3;color:#756858;">Original muted</div>
-        <div class="contrast-meta"><span class="contrast-ratio fail-aa">~3.5:1</span> — #756858 on #FBF8F3 <span class="fail-aa">Fail</span></div>
-      </div>
-      <div class="contrast-chip">
-        <div class="contrast-preview" style="background:#B45A32;color:#FBF8F3;">Btn primary</div>
-        <div class="contrast-meta"><span class="contrast-ratio pass-aa">~4.6:1</span> — #FBF8F3 on #B45A32 <span class="pass-aa">AA</span></div>
-      </div>
-      <div class="contrast-chip">
-        <div class="contrast-preview" style="background:#1A1715;color:#F1ECE4;">Dark surface</div>
-        <div class="contrast-meta"><span class="contrast-ratio pass-aa">~15.1:1</span> — #F1ECE4 on #1A1715 <span class="pass-aa">AAA</span></div>
-      </div>
-      <div class="contrast-chip">
-        <div class="contrast-preview" style="background:#1A1715;color:#C9A14D;">Gold on dark</div>
-        <div class="contrast-meta"><span class="contrast-ratio pass-aa">~5.8:1</span> — #C9A14D on #1A1715 <span class="pass-aa">AA</span></div>
       </div>
     </div>
   </section>
