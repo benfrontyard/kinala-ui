@@ -5,14 +5,50 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Kinala UI Foundations</title>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Spectral:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,400..600,0..1,-50..200" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+    /* Mirrors tailwind.config.js semantic colors — keep in sync. */
+    :root {
+      --color-link: #7D3A20;
+      --color-link-hover: #5C2A18;
+      --color-link-inverse: #D9BC73;
+      --color-link-inverse-hover: #F5EFE6;
+      --color-focus-ring: #B45A32;
+      --color-danger: #B33A2C;
+      --color-danger-soft: rgba(179, 58, 44, 0.14);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+
     /* ── Focus ring: visible for keyboard, hidden for mouse ── */
     :focus-visible {
-      outline: 3px solid #B45A32;
+      outline: 3px solid var(--color-focus-ring);
       outline-offset: 3px;
       border-radius: 4px;
+    }
+
+    /* Inline links on light surfaces: rust-deep family + underline (not color-alone). */
+    body a:not(.btn) {
+      color: var(--color-link);
+      text-decoration: underline;
+      text-decoration-thickness: 1px;
+      text-underline-offset: 0.2em;
+    }
+    body a:not(.btn):visited {
+      color: var(--color-link);
+    }
+    @media (hover: hover) {
+      body a:not(.btn):hover {
+        color: var(--color-link-hover);
+      }
     }
 
     body {
@@ -33,7 +69,7 @@
       font-family: 'Spectral', serif;
       line-height: 1.15;
       font-weight: 400;
-      letter-spacing: -1.5px;
+      letter-spacing: -0.02em;
       margin-bottom: 8px;
     }
 
@@ -88,19 +124,148 @@
     .semantic-card { border-radius: 10px; overflow: hidden; border: 1px solid #E8DFD2; }
     .semantic-preview { height: 56px; }
     .semantic-info { padding: 10px 12px; background: white; }
-    .semantic-token { font-size: 12px; font-weight: 600; color: #1A1715; }
-    .semantic-value { font-size: 11px; color: #5A4F44; font-family: monospace; }
+    .semantic-token { font-size: 13px; font-weight: 600; color: #1A1715; }
+    .semantic-value {
+      font-size: 11px;
+      line-height: 1.45;
+      color: #5A4F44;
+      margin-top: 6px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    }
+    .semantic-value code {
+      font-size: 11px;
+      background: #F5EFE6;
+      padding: 2px 5px;
+      border-radius: 3px;
+      color: #413932;
+      font-weight: 500;
+    }
+
+    .token-table-wrap {
+      overflow-x: auto;
+      border-radius: 10px;
+      border: 1px solid #E8DFD2;
+      background: #FFFFFF;
+    }
+    .token-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+    .token-table th,
+    .token-table td {
+      padding: 10px 14px;
+      text-align: left;
+      border-bottom: 1px solid #F5EFE6;
+      vertical-align: top;
+    }
+    .token-table th {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: #B7A996;
+      background: #FBF8F3;
+    }
+    .token-table tbody tr:last-child td { border-bottom: none; }
+    .token-table td:first-child {
+      vertical-align: top;
+    }
+    .token-table .token-cell-name {
+      display: block;
+      font-family: 'DM Sans', ui-sans-serif, system-ui, sans-serif;
+      font-weight: 600;
+      font-size: 13px;
+      color: #1A1715;
+      line-height: 1.25;
+    }
+    .token-table .token-cell-name .token-dot {
+      vertical-align: -2px;
+    }
+    .token-table .token-hex {
+      display: block;
+      margin-top: 4px;
+      padding: 0;
+      background: none;
+      border-radius: 0;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 11px;
+      font-weight: 500;
+      color: #756858;
+      letter-spacing: 0.01em;
+      line-height: 1.3;
+    }
+    .token-table td:nth-child(2) {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 11px;
+      color: #413932;
+      line-height: 1.45;
+    }
+    .token-table td:nth-child(3) {
+      color: #5A4F44;
+      font-size: 12px;
+      line-height: 1.45;
+    }
+    .token-table td code {
+      font-size: 11px;
+      background: #F5EFE6;
+      padding: 1px 4px;
+      border-radius: 3px;
+      color: #413932;
+    }
+    .token-table .token-dot {
+      display: inline-block;
+      width: 12px;
+      height: 12px;
+      border-radius: 3px;
+      vertical-align: -1px;
+      margin-right: 6px;
+      border: 1px solid rgba(26,23,21,0.08);
+    }
 
     /* ── TYPOGRAPHY ── */
     .type-row { display: flex; align-items: baseline; gap: 24px; padding: 16px 0; border-bottom: 1px solid #F5EFE6; }
-    .type-meta { min-width: 140px; flex-shrink: 0; }
+    .type-meta { min-width: 200px; flex-shrink: 0; }
     @media (max-width: 560px) {
       .type-row { flex-direction: column; align-items: flex-start; gap: 8px; }
       .type-meta { min-width: 0; }
     }
     .type-token { font-size: 12px; font-weight: 600; color: #B45A32; font-family: monospace; }
-    .type-size { font-size: 11px; color: #5A4F44; margin-top: 2px; }
+    .type-spec {
+      margin-top: 8px;
+      font-size: 11px;
+      line-height: 1.45;
+      color: #5A4F44;
+    }
+    .type-spec-pair {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px 10px;
+      align-items: baseline;
+      margin: 0 0 3px;
+    }
+    .type-spec-pair:last-child { margin-bottom: 0; }
+    .type-spec dt {
+      margin: 0;
+      flex: 0 0 auto;
+      min-width: 7.5rem;
+      font-weight: 600;
+      color: #5A4F44;
+    }
+    .type-spec dd {
+      margin: 0;
+      flex: 1 1 auto;
+      min-width: 0;
+      font-family: ui-monospace, 'Cascadia Code', 'SF Mono', Menlo, monospace;
+      font-size: 11px;
+      color: #1A1715;
+    }
     .type-sample { color: #1A1715; }
+    /* Matches tailwind `tracking-serif` / theme.extend.letterSpacing.serif */
+    .type-sample-serif {
+      font-family: 'Spectral', serif;
+      letter-spacing: -0.02em;
+    }
 
     /* ── BORDER RADIUS ── */
     .radius-row { display: flex; gap: 20px; flex-wrap: wrap; align-items: flex-end; }
@@ -127,6 +292,7 @@
       font-family: 'DM Sans', sans-serif;
       font-size: 14px;
       font-weight: 600;
+      min-height: 44px;
       padding: 10px 20px;
       border-radius: 10px;
       border: 2px solid transparent;
@@ -143,26 +309,29 @@
 
     /* Primary */
     .btn-primary { background: #B45A32; color: #FBF8F3; border-color: #B45A32; }
-    .btn-primary:hover  { background: #9E4A28; border-color: #9E4A28; }
     .btn-primary:active { background: #7D3A20; border-color: #7D3A20; }
     .btn-primary:focus-visible { outline-color: #B45A32; box-shadow: 0 0 0 3px rgba(180,90,50,0.28); }
 
     /* Secondary */
     .btn-secondary { background: transparent; color: #B45A32; border-color: #B45A32; }
-    .btn-secondary:hover  { background: #F8EEE9; }
     .btn-secondary:active { background: #F1DDD2; }
     .btn-secondary:focus-visible { box-shadow: 0 0 0 3px rgba(180,90,50,0.28); }
 
     /* Ghost */
     .btn-ghost { background: transparent; color: #5A4F44; border-color: transparent; }
-    .btn-ghost:hover  { background: #F5EFE6; color: #1A1715; }
     .btn-ghost:active { background: #E8DFD2; }
     .btn-ghost:focus-visible { box-shadow: 0 0 0 3px rgba(90,79,68,0.2); }
 
     /* Gold variant (on dark surfaces) */
     .btn-gold { background: #C9A14D; color: #1A1715; border-color: #C9A14D; }
-    .btn-gold:hover  { background: #B98B32; border-color: #B98B32; }
     .btn-gold:active { background: #9E7A2A; border-color: #9E7A2A; }
+
+    @media (hover: hover) {
+      .btn-primary:hover { background: #9E4A28; border-color: #9E4A28; }
+      .btn-secondary:hover { background: #F8EEE9; }
+      .btn-ghost:hover { background: #F5EFE6; color: #1A1715; }
+      .btn-gold:hover { background: #B98B32; border-color: #B98B32; }
+    }
 
     .badge { display: inline-block; background: #F1DDD2; color: #7D3A20; font-size: 12px; font-weight: 600; padding: 3px 10px; border-radius: 999px; }
     .badge-gold { background: transparent; color: #7D3A20; border: 1px solid #C9A14D; }
@@ -175,7 +344,7 @@
       border: 1.5px solid #D6C9B8;
       border-radius: 10px;
       font-family: 'DM Sans', sans-serif;
-      font-size: 15px;
+      font-size: 16px;
       color: #1A1715;
       background: #FBF8F3;
       outline: none;
@@ -185,10 +354,10 @@
     .input-field::placeholder { color: #B7A996; }
     .input-field:hover { border-color: #B7A996; }
     .input-field:focus { border-color: #B45A32; box-shadow: 0 0 0 3px rgba(180,90,50,0.14); }
-    .input-field.is-error { border-color: #C0392B; box-shadow: 0 0 0 3px rgba(192,57,43,0.12); }
+    .input-field.is-error { border-color: var(--color-danger); box-shadow: 0 0 0 3px var(--color-danger-soft); }
     .input-field:disabled { opacity: 0.45; cursor: not-allowed; background: #F5EFE6; }
     .input-hint { font-size: 12px; color: #5A4F44; }
-    .input-error-msg { font-size: 12px; color: #C0392B; }
+    .input-error-msg { font-size: 12px; color: var(--color-danger); font-weight: 500; }
 
     .divider { border: none; border-top: 1px solid #E8DFD2; margin: 16px 0; }
 
@@ -206,6 +375,14 @@
       color: #978976;
       max-width: 560px;
       margin: 20px auto 32px;
+    }
+    .hero-demo a:not(.btn) {
+      color: var(--color-link-inverse);
+    }
+    @media (hover: hover) {
+      .hero-demo a:not(.btn):hover {
+        color: var(--color-link-inverse-hover);
+      }
     }
 
     /* ── INTERACTION STATES SECTION ── */
@@ -305,6 +482,192 @@
     .playground-dark {
       background: #1A1715;
     }
+
+    /* ── Icons (Material Symbols Outlined — Google Fonts) ── */
+    /* Four sizes: 16 / 24 / 36 / 48 px. Stroke = wght axis: 400 (sm–md), 500 (lg–xl). */
+    .material-symbols-outlined {
+      font-family: 'Material Symbols Outlined', sans-serif;
+      font-weight: normal;
+      font-style: normal;
+      line-height: 1;
+      letter-spacing: normal;
+      text-transform: none;
+      display: inline-block;
+      white-space: nowrap;
+      word-wrap: normal;
+      direction: ltr;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      vertical-align: middle;
+      color: #9C918B;
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      font-size: 24px;
+    }
+    .icon-sm {
+      font-size: 16px;
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 20;
+    }
+    .icon-md {
+      font-size: 24px;
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+    .icon-lg {
+      font-size: 36px;
+      font-variation-settings: 'FILL' 0, 'wght' 500, 'GRAD' 0, 'opsz' 36;
+    }
+    .icon-xl {
+      font-size: 48px;
+      font-variation-settings: 'FILL' 0, 'wght' 500, 'GRAD' 0, 'opsz' 48;
+    }
+    .icon-ink { color: #1A1715; }
+    .icon-muted { color: #5A4F44; }
+    .icon-fg { color: #9C918B; }
+
+    .dev-strip {
+      border: 1px solid #E8DFD2;
+      border-radius: 12px;
+      padding: 16px 18px;
+      margin-bottom: 16px;
+      background: #FFFFFF;
+    }
+    .dev-strip-title {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #B7A996;
+      margin-bottom: 10px;
+    }
+    .dev-strip ul {
+      margin: 0;
+      padding-left: 1.15em;
+      color: #5A4F44;
+      font-size: 14px;
+      line-height: 1.55;
+    }
+    .dev-strip li { margin-bottom: 6px; }
+    .dev-strip li:last-child { margin-bottom: 0; }
+    .page-toc {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px 12px;
+      margin-bottom: 32px;
+      font-size: 13px;
+      color: #5A4F44;
+    }
+    .page-toc-label {
+      font-weight: 600;
+      color: #413932;
+    }
+    .page-toc span[aria-hidden="true"] { color: #B7A996; user-select: none; }
+    .dev-strip code {
+      font-family: ui-monospace, monospace;
+      font-size: 12px;
+      background: #F5EFE6;
+      padding: 1px 5px;
+      border-radius: 4px;
+      color: #1A1715;
+    }
+
+    .colors-section-intro {
+      font-size: 14px;
+      line-height: 1.5;
+      color: #5A4F44;
+      margin: 0 0 16px;
+      max-width: 42em;
+    }
+    .palette-subname {
+      font-size: 12px;
+      font-weight: 500;
+      color: #978976;
+      margin: -4px 0 12px;
+    }
+    .icon-section-intro,
+    .type-section-intro {
+      font-size: 14px;
+      line-height: 1.55;
+      color: #5A4F44;
+      max-width: 42rem;
+      margin-bottom: 20px;
+    }
+    .icon-section-intro code,
+    .type-section-intro code {
+      font-family: ui-monospace, monospace;
+      font-size: 12px;
+      background: #F5EFE6;
+      padding: 2px 6px;
+      border-radius: 4px;
+      color: #1A1715;
+    }
+    .icon-scale-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      margin-bottom: 28px;
+    }
+    .icon-scale-table th,
+    .icon-scale-table td {
+      text-align: left;
+      padding: 10px 12px;
+      border-bottom: 1px solid #F5EFE6;
+      vertical-align: middle;
+    }
+    .icon-scale-table th {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #5A4F44;
+    }
+    .icon-scale-table .icon-token {
+      font-family: ui-monospace, monospace;
+      font-size: 12px;
+      font-weight: 600;
+      color: #B45A32;
+    }
+    .icon-scale-dd {
+      font-family: ui-monospace, monospace;
+      font-size: 12px;
+      color: #1A1715;
+    }
+    .icon-scale-table td code {
+      font-size: 11px;
+      background: #F5EFE6;
+      padding: 1px 4px;
+      border-radius: 3px;
+      color: #413932;
+    }
+    .icon-scale-sample {
+      text-align: center;
+      width: 56px;
+    }
+    .icon-library {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 12px;
+    }
+    .icon-library-card {
+      border: 1px solid #E8DFD2;
+      border-radius: 10px;
+      padding: 14px 12px;
+      background: #FFFFFF;
+      text-align: center;
+    }
+    .icon-library-card .material-symbols-outlined {
+      margin-bottom: 8px;
+    }
+    .icon-library-name {
+      font-family: ui-monospace, monospace;
+      font-size: 11px;
+      color: #1A1715;
+      word-break: break-all;
+    }
+    .icon-library-hint {
+      font-size: 10px;
+      color: #5A4F44;
+      margin-top: 4px;
+    }
   </style>
 </head>
 <body>
@@ -312,11 +675,39 @@
   <!-- ── Header ─────────────────────────────────── -->
   <header>
     <h1 class="page-title">Kinala UI Foundations</h1>
-    <p class="page-subtitle">Visual reference for tailwind.config.ts — colors, typography, tokens &amp; interaction states</p>
+    <p class="page-subtitle">UI reference. Tokens in <strong>tailwind.config.js</strong> · <a href="kinala-dashboard-concept.html">dashboard concept</a></p>
     <nav class="proto-nav" aria-label="Prototype pages">
       <span class="proto-nav-label">Open</span>
       <a class="btn btn-secondary" href="index.html">Preview hub</a>
       <a class="btn btn-primary" href="kinala-dashboard-concept.html">Desktop dashboard concept</a>
+    </nav>
+
+    <div class="dev-strip">
+      <p class="dev-strip-title">For developers</p>
+      <ul>
+        <li><strong>Config:</strong> <code>tailwind.config.js</code> — colors, fonts, shadows.</li>
+        <li><strong>In UI:</strong> Tailwind utilities from token names (<code>bg-cream</code>, <code>text-link</code>, <code>text-danger</code>, …). See the <a href="#sec-theme-tokens">theme token table</a>.</li>
+      </ul>
+    </div>
+
+    <nav class="page-toc" aria-label="On this page">
+      <span class="page-toc-label">Jump to</span>
+      <span aria-hidden="true">·</span>
+      <a href="#sec-theme-tokens">Theme tokens</a>
+      <span aria-hidden="true">·</span>
+      <a href="#sec-palettes">Palettes</a>
+      <span aria-hidden="true">·</span>
+      <a href="#sec-design-roles">Design roles</a>
+      <span aria-hidden="true">·</span>
+      <a href="#sec-type">Typography</a>
+      <span aria-hidden="true">·</span>
+      <a href="#sec-icons">Icons</a>
+      <span aria-hidden="true">·</span>
+      <a href="#sec-radius">Radius</a>
+      <span aria-hidden="true">·</span>
+      <a href="#sec-shadows">Shadows</a>
+      <span aria-hidden="true">·</span>
+      <a href="#interaction-states">States</a>
     </nav>
   </header>
 
@@ -332,13 +723,160 @@
       <path d="M627.577 154.947V16.9575H643.677V154.947H627.577Z" fill="#F1ECE4"/>
       <path d="M697.847 157.247C690.057 157.247 683.537 155.907 678.297 153.217C673.057 150.407 669.157 146.768 666.607 142.298C664.047 137.698 662.777 132.717 662.777 127.347C662.777 120.827 664.437 115.338 667.757 110.868C671.207 106.268 675.997 102.817 682.127 100.517C688.387 98.0875 695.737 96.8775 704.167 96.8775H729.657C729.657 90.8775 728.697 85.8875 726.777 81.9275C724.987 77.8375 722.307 74.7775 718.727 72.7275C715.277 70.6875 710.937 69.6575 705.697 69.6575C699.567 69.6575 694.267 71.1875 689.787 74.2575C685.317 77.3275 682.567 81.8575 681.547 87.8675H665.067C665.837 80.9675 668.137 75.2175 671.967 70.6175C675.927 65.8875 680.907 62.3175 686.917 59.8875C692.917 57.3275 699.187 56.0575 705.697 56.0575C714.637 56.0575 722.047 57.7175 727.927 61.0375C733.927 64.2275 738.407 68.7675 741.337 74.6475C744.277 80.3975 745.747 87.2275 745.747 95.1575V154.947H731.377L730.417 137.887C729.137 140.567 727.477 143.127 725.437 145.557C723.517 147.857 721.217 149.898 718.537 151.688C715.857 153.347 712.787 154.688 709.337 155.708C706.017 156.728 702.187 157.238 697.837 157.238L697.847 157.247ZM700.337 143.637C704.807 143.637 708.837 142.747 712.407 140.957C716.117 139.037 719.247 136.487 721.797 133.287C724.357 129.967 726.267 126.328 727.547 122.368C728.957 118.408 729.657 114.258 729.657 109.908V109.337H705.507C699.247 109.337 694.197 110.107 690.367 111.637C686.537 113.047 683.787 115.087 682.127 117.767C680.467 120.327 679.637 123.258 679.637 126.588C679.637 129.918 680.407 133.037 681.937 135.597C683.597 138.157 685.957 140.137 689.027 141.537C692.217 142.937 695.987 143.647 700.337 143.647V143.637Z" fill="#F1ECE4"/>
     </svg>
-    <p class="hero-sub">Kinala UI is the shared foundation for color, type, spacing, and components. Use it to ship interfaces that stay consistent, accessible, and on brand.</p>
-    <a class="btn btn-gold" href="#interaction-states">Explore Interaction States</a>
+    <p class="hero-sub">Brand preview.</p>
+    <a class="btn btn-gold" href="#interaction-states">Interaction states</a>
   </div>
 
   <!-- ── Colors ──────────────────────────────────── -->
   <section aria-labelledby="sec-colors">
     <h2 id="sec-colors" class="section-label">Colors</h2>
+    <p class="colors-section-intro">Tailwind classes from token names; hex under each token matches <strong>tailwind.config.js</strong>.</p>
+
+    <div class="palette-group" id="sec-theme-tokens">
+      <p class="palette-name">Theme tokens</p>
+      <div class="token-table-wrap" role="region" aria-label="Theme color names">
+        <table class="token-table">
+          <thead>
+            <tr>
+              <th scope="col">Token</th>
+              <th scope="col">Example</th>
+              <th scope="col">Scale</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="token-cell-name"><span class="token-dot" style="background:#FBF8F3" aria-hidden="true"></span>cream</span><code class="token-hex">#FBF8F3</code></td>
+              <td><code>bg-cream</code></td>
+              <td>sand-50</td>
+            </tr>
+            <tr>
+              <td><span class="token-cell-name"><span class="token-dot" style="background:#FFFFFF" aria-hidden="true"></span>surface</span><code class="token-hex">#FFFFFF</code></td>
+              <td><code>bg-surface</code></td>
+              <td>white</td>
+            </tr>
+            <tr>
+              <td><span class="token-cell-name"><span class="token-dot" style="background:#F5F2ED" aria-hidden="true"></span>sidebar-tint</span><code class="token-hex">#F5F2ED</code></td>
+              <td><code>bg-sidebar-tint</code></td>
+              <td>custom · sidebar</td>
+            </tr>
+            <tr>
+              <td><span class="token-cell-name"><span class="token-dot" style="background:#1A1715" aria-hidden="true"></span>ink</span><code class="token-hex">#1A1715</code></td>
+              <td><code>text-ink</code></td>
+              <td>same as <code>panel</code> · near sand-900</td>
+            </tr>
+            <tr>
+              <td><span class="token-cell-name"><span class="token-dot" style="background:#5A4F44" aria-hidden="true"></span>muted</span><code class="token-hex">#5A4F44</code></td>
+              <td><code>text-muted</code></td>
+              <td>sand-700</td>
+            </tr>
+            <tr>
+              <td><span class="token-cell-name"><span class="token-dot" style="background:#9C918B" aria-hidden="true"></span>icon-fg</span><code class="token-hex">#9C918B</code></td>
+              <td><code>text-icon-fg</code></td>
+              <td>sand-400–500</td>
+            </tr>
+            <tr>
+              <td><span class="token-cell-name"><span class="token-dot" style="background:#B45A32" aria-hidden="true"></span>rust</span><code class="token-hex">#B45A32</code></td>
+              <td><code>bg-rust</code> · <code>text-rust</code></td>
+              <td>brand-500</td>
+            </tr>
+            <tr>
+              <td><span class="token-cell-name"><span class="token-dot" style="background:#7D3A20" aria-hidden="true"></span>rust-deep</span><code class="token-hex">#7D3A20</code></td>
+              <td><code>bg-rust-deep</code></td>
+              <td>brand-700</td>
+            </tr>
+            <tr>
+              <td><span class="token-cell-name"><span class="token-dot" style="background:#C9A14D" aria-hidden="true"></span>gold</span><code class="token-hex">#C9A14D</code></td>
+              <td><code>bg-gold</code> · <code>text-gold</code></td>
+              <td>gold-400</td>
+            </tr>
+            <tr>
+              <td><span class="token-cell-name"><span class="token-dot" style="background:#D9BC73" aria-hidden="true"></span>gold-soft</span><code class="token-hex">#D9BC73</code></td>
+              <td><code>text-gold-soft</code></td>
+              <td>gold-300</td>
+            </tr>
+            <tr>
+              <td><span class="token-cell-name"><span class="token-dot" style="background:rgba(201,161,77,0.35)" aria-hidden="true"></span>gold-dim</span><code class="token-hex">rgba(201,161,77,0.35)</code></td>
+              <td><code>bg-gold-dim</code></td>
+              <td>α in config</td>
+            </tr>
+            <tr>
+              <td><span class="token-cell-name"><span class="token-dot" style="background:#E8DFD2" aria-hidden="true"></span>line</span><code class="token-hex">#E8DFD2</code></td>
+              <td><code>border-line</code></td>
+              <td>sand-200</td>
+            </tr>
+            <tr>
+              <td><span class="token-cell-name"><span class="token-dot" style="background:#D6C9B8" aria-hidden="true"></span>line-strong</span><code class="token-hex">#D6C9B8</code></td>
+              <td><code>border-line-strong</code></td>
+              <td>sand-300</td>
+            </tr>
+            <tr>
+              <td><span class="token-cell-name"><span class="token-dot" style="background:#F5EFE6" aria-hidden="true"></span>wash</span><code class="token-hex">#F5EFE6</code></td>
+              <td><code>bg-wash</code></td>
+              <td>sand-100</td>
+            </tr>
+            <tr>
+              <td><span class="token-cell-name"><span class="token-dot" style="background:#F8EEE9" aria-hidden="true"></span>blush</span><code class="token-hex">#F8EEE9</code></td>
+              <td><code>bg-blush</code></td>
+              <td>brand-50</td>
+            </tr>
+            <tr>
+              <td><span class="token-cell-name"><span class="token-dot" style="background:#1A1715" aria-hidden="true"></span>panel</span><code class="token-hex">#1A1715</code></td>
+              <td><code>bg-panel</code></td>
+              <td>same as <code>ink</code></td>
+            </tr>
+            <tr>
+              <td><span class="token-cell-name"><span class="token-dot" style="background:#978976" aria-hidden="true"></span>panel-muted</span><code class="token-hex">#978976</code></td>
+              <td><code>text-panel-muted</code></td>
+              <td>sand-500</td>
+            </tr>
+            <tr>
+              <td><span class="token-cell-name"><span class="token-dot" style="background:rgba(232,223,210,0.12)" aria-hidden="true"></span>panel-line</span><code class="token-hex">rgba(232,223,210,0.12)</code></td>
+              <td><code>border-panel-line</code></td>
+              <td>hairline on dark</td>
+            </tr>
+            <tr>
+              <td><span class="token-cell-name"><span class="token-dot" style="background:#7D3A20" aria-hidden="true"></span>link</span><code class="token-hex">#7D3A20</code></td>
+              <td><code>text-link</code></td>
+              <td>inline links on <code>cream</code> / <code>surface</code> (same hue as <code>rust-deep</code>)</td>
+            </tr>
+            <tr>
+              <td><span class="token-cell-name"><span class="token-dot" style="background:#5C2A18" aria-hidden="true"></span>link-hover</span><code class="token-hex">#5C2A18</code></td>
+              <td><code>text-link-hover</code></td>
+              <td>hover state for <code>text-link</code></td>
+            </tr>
+            <tr>
+              <td><span class="token-cell-name"><span class="token-dot" style="background:#D9BC73" aria-hidden="true"></span>link-inverse</span><code class="token-hex">#D9BC73</code></td>
+              <td><code>text-link-inverse</code></td>
+              <td>inline links on <code>panel</code> / dark bars</td>
+            </tr>
+            <tr>
+              <td><span class="token-cell-name"><span class="token-dot" style="background:#F5EFE6" aria-hidden="true"></span>link-inverse-hover</span><code class="token-hex">#F5EFE6</code></td>
+              <td><code>text-link-inverse-hover</code></td>
+              <td>hover for <code>text-link-inverse</code></td>
+            </tr>
+            <tr>
+              <td><span class="token-cell-name"><span class="token-dot" style="background:#B45A32" aria-hidden="true"></span>focus-ring</span><code class="token-hex">#B45A32</code></td>
+              <td><code>outline-focus-ring</code> · <code>ring-focus-ring</code></td>
+              <td>keyboard focus (same as <code>rust</code>)</td>
+            </tr>
+            <tr>
+              <td><span class="token-cell-name"><span class="token-dot" style="background:#B33A2C" aria-hidden="true"></span>danger</span><code class="token-hex">#B33A2C</code></td>
+              <td><code>text-danger</code> · <code>border-danger</code></td>
+              <td>errors &amp; destructive emphasis on light backgrounds</td>
+            </tr>
+            <tr>
+              <td><span class="token-cell-name"><span class="token-dot" style="background:rgba(179,58,44,0.14)" aria-hidden="true"></span>danger-soft</span><code class="token-hex">rgba(179,58,44,0.14)</code></td>
+              <td><code>bg-danger-soft</code> · <code>shadow-danger-soft</code></td>
+              <td>α glow for invalid fields (pairs with <code>border-danger</code>)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div id="sec-palettes">
+      <p class="palette-name">Palette scales</p>
+      <p class="palette-subname">Extra steps when a named token is not enough.</p>
 
     <div class="palette-group">
       <p class="palette-name">brand</p>
@@ -380,64 +918,291 @@
         <div class="swatch" role="listitem"><div class="swatch-block" style="background:#B98B32"></div><span class="swatch-label">500<br/>#B98B32</span></div>
       </div>
     </div>
+    </div>
 
-    <div class="palette-group">
-      <p class="palette-name">Semantic aliases</p>
-      <div class="semantic-grid">
-        <div class="semantic-card"><div class="semantic-preview" style="background:#FBF8F3;border-bottom:1px solid #E8DFD2"></div><div class="semantic-info"><p class="semantic-token">background.DEFAULT</p><p class="semantic-value">#FBF8F3 (sand-50)</p></div></div>
-        <div class="semantic-card"><div class="semantic-preview" style="background:#F5EFE6;border-bottom:1px solid #E8DFD2"></div><div class="semantic-info"><p class="semantic-token">background.subtle</p><p class="semantic-value">#F5EFE6 (sand-100)</p></div></div>
-        <div class="semantic-card"><div class="semantic-preview" style="background:#1A1715"></div><div class="semantic-info"><p class="semantic-token">background.inverse</p><p class="semantic-value">#1A1715 (charcoal-900)</p></div></div>
-        <div class="semantic-card"><div class="semantic-preview" style="background:#1A1715"></div><div class="semantic-info"><p class="semantic-token">foreground.DEFAULT</p><p class="semantic-value">#1A1715</p></div></div>
-        <div class="semantic-card"><div class="semantic-preview" style="background:#756858"></div><div class="semantic-info"><p class="semantic-token">foreground.muted</p><p class="semantic-value">#756858 (sand-600)</p></div></div>
-        <div class="semantic-card"><div class="semantic-preview" style="background:#E8DFD2;border-bottom:1px solid #D6C9B8"></div><div class="semantic-info"><p class="semantic-token">border.DEFAULT</p><p class="semantic-value">#E8DFD2 (sand-200)</p></div></div>
-        <div class="semantic-card"><div class="semantic-preview" style="background:#B45A32"></div><div class="semantic-info"><p class="semantic-token">accent.primary</p><p class="semantic-value">#B45A32 (brand-500)</p></div></div>
-        <div class="semantic-card"><div class="semantic-preview" style="background:#C9A14D"></div><div class="semantic-info"><p class="semantic-token">accent.highlight</p><p class="semantic-value">#C9A14D (gold-400)</p></div></div>
+    <div class="palette-group" id="sec-design-roles">
+      <p class="palette-name">Design roles</p>
+      <div class="semantic-grid" role="list" aria-label="Example uses for theme tokens">
+        <div class="semantic-card" role="listitem">
+          <div class="semantic-preview" style="background:#FBF8F3;border-bottom:1px solid #E8DFD2"></div>
+          <div class="semantic-info">
+            <p class="semantic-token">Default page background</p>
+            <p class="semantic-value"><code>bg-cream</code></p>
+          </div>
+        </div>
+        <div class="semantic-card" role="listitem">
+          <div class="semantic-preview" style="background:#F5EFE6;border-bottom:1px solid #E8DFD2"></div>
+          <div class="semantic-info">
+            <p class="semantic-token">Softer sections</p>
+            <p class="semantic-value"><code>bg-wash</code></p>
+          </div>
+        </div>
+        <div class="semantic-card" role="listitem">
+          <div class="semantic-preview" style="background:#1A1715"></div>
+          <div class="semantic-info">
+            <p class="semantic-token">Dark bars &amp; inverse panels</p>
+            <p class="semantic-value"><code>bg-panel</code></p>
+          </div>
+        </div>
+        <div class="semantic-card" role="listitem">
+          <div class="semantic-preview" style="background:#1A1715"></div>
+          <div class="semantic-info">
+            <p class="semantic-token">Primary body text</p>
+            <p class="semantic-value"><code>text-ink</code></p>
+          </div>
+        </div>
+        <div class="semantic-card" role="listitem">
+          <div class="semantic-preview" style="background:#5A4F44"></div>
+          <div class="semantic-info">
+            <p class="semantic-token">Supporting &amp; secondary text</p>
+            <p class="semantic-value"><code>text-muted</code></p>
+          </div>
+        </div>
+        <div class="semantic-card" role="listitem">
+          <div class="semantic-preview" style="background:#E8DFD2;border-bottom:1px solid #D6C9B8"></div>
+          <div class="semantic-info">
+            <p class="semantic-token">Default borders</p>
+            <p class="semantic-value"><code>border-line</code> · <code>border-line-strong</code></p>
+          </div>
+        </div>
+        <div class="semantic-card" role="listitem">
+          <div class="semantic-preview" style="background:#B45A32"></div>
+          <div class="semantic-info">
+            <p class="semantic-token">Primary actions, focus ring</p>
+            <p class="semantic-value"><code>bg-rust</code> · <code>ring-focus-ring</code></p>
+          </div>
+        </div>
+        <div class="semantic-card" role="listitem">
+          <div class="semantic-preview" style="background:#C9A14D"></div>
+          <div class="semantic-info">
+            <p class="semantic-token">Highlights &amp; accent fills</p>
+            <p class="semantic-value"><code>bg-gold</code> · <code>text-gold</code></p>
+          </div>
+        </div>
+        <div class="semantic-card" role="listitem">
+          <div class="semantic-preview" style="background:#7D3A20"></div>
+          <div class="semantic-info">
+            <p class="semantic-token">Inline links on light surfaces</p>
+            <p class="semantic-value"><code>text-link</code> · <code>hover:text-link-hover</code></p>
+          </div>
+        </div>
+        <div class="semantic-card" role="listitem">
+          <div class="semantic-preview" style="background:#D9BC73"></div>
+          <div class="semantic-info">
+            <p class="semantic-token">Inline links on dark surfaces</p>
+            <p class="semantic-value"><code>text-link-inverse</code></p>
+          </div>
+        </div>
+        <div class="semantic-card" role="listitem">
+          <div class="semantic-preview" style="background:#B33A2C"></div>
+          <div class="semantic-info">
+            <p class="semantic-token">Errors &amp; invalid fields</p>
+            <p class="semantic-value"><code>text-danger</code> · <code>border-danger</code> · <code>shadow-danger-soft</code></p>
+          </div>
+        </div>
       </div>
     </div>
   </section>
 
   <!-- ── Typography ─────────────────────────────── -->
   <section aria-labelledby="sec-type">
-    <h2 id="sec-type" class="section-label">Typography Scale</h2>
+    <h2 id="sec-type" class="section-label">Typography</h2>
+    <p class="type-section-intro">
+      <a href="https://fonts.google.com/specimen/DM+Sans" rel="noopener noreferrer">DM Sans</a> (UI), <a href="https://fonts.google.com/specimen/Spectral" rel="noopener noreferrer">Spectral</a> (display) — <code>font-sans</code> · <code>font-serif</code> · <code>tracking-sans</code> / <code>tracking-serif</code>
+    </p>
     <div class="type-row">
-      <div class="type-meta"><p class="type-token">display-xl</p><p class="type-size">64px / 72 / 400</p></div>
-      <p class="type-sample" style="font-family:'Spectral',serif;font-size:64px;line-height:72px;font-weight:400;letter-spacing:-1.5px;" aria-label="Display XL sample text">Display XL</p>
+      <div class="type-meta">
+        <p class="type-token">display-xl</p>
+        <dl class="type-spec">
+          <div class="type-spec-pair"><dt>Font size</dt><dd>64px</dd></div>
+          <div class="type-spec-pair"><dt>Line height</dt><dd>72px</dd></div>
+          <div class="type-spec-pair"><dt>Font weight</dt><dd>400</dd></div>
+          <div class="type-spec-pair"><dt>Letter spacing</dt><dd>-0.02em</dd></div>
+        </dl>
+      </div>
+      <p class="type-sample type-sample-serif" style="font-size:64px;line-height:72px;font-weight:400;" aria-label="Display XL sample text">Display XL</p>
     </div>
     <div class="type-row">
-      <div class="type-meta"><p class="type-token">display-lg</p><p class="type-size">48px / 56 / 400</p></div>
-      <p class="type-sample" style="font-family:'Spectral',serif;font-size:48px;line-height:56px;font-weight:400;letter-spacing:-1.5px;">Display Large</p>
+      <div class="type-meta">
+        <p class="type-token">display-lg</p>
+        <dl class="type-spec">
+          <div class="type-spec-pair"><dt>Font size</dt><dd>48px</dd></div>
+          <div class="type-spec-pair"><dt>Line height</dt><dd>56px</dd></div>
+          <div class="type-spec-pair"><dt>Font weight</dt><dd>400</dd></div>
+          <div class="type-spec-pair"><dt>Letter spacing</dt><dd>-0.02em</dd></div>
+        </dl>
+      </div>
+      <p class="type-sample type-sample-serif" style="font-size:48px;line-height:56px;font-weight:400;">Display Large</p>
     </div>
     <div class="type-row">
-      <div class="type-meta"><p class="type-token">h1</p><p class="type-size">40px / 48 / 400</p></div>
+      <div class="type-meta">
+        <p class="type-token">h1</p>
+        <dl class="type-spec">
+          <div class="type-spec-pair"><dt>Font size</dt><dd>40px</dd></div>
+          <div class="type-spec-pair"><dt>Line height</dt><dd>48px</dd></div>
+          <div class="type-spec-pair"><dt>Font weight</dt><dd>400</dd></div>
+          <div class="type-spec-pair"><dt>Letter spacing</dt><dd>normal</dd></div>
+        </dl>
+      </div>
       <p class="type-sample" style="font-size:40px;line-height:48px;font-weight:400;">Heading One</p>
     </div>
     <div class="type-row">
-      <div class="type-meta"><p class="type-token">h2</p><p class="type-size">32px / 40 / 400</p></div>
+      <div class="type-meta">
+        <p class="type-token">h2</p>
+        <dl class="type-spec">
+          <div class="type-spec-pair"><dt>Font size</dt><dd>32px</dd></div>
+          <div class="type-spec-pair"><dt>Line height</dt><dd>40px</dd></div>
+          <div class="type-spec-pair"><dt>Font weight</dt><dd>400</dd></div>
+          <div class="type-spec-pair"><dt>Letter spacing</dt><dd>normal</dd></div>
+        </dl>
+      </div>
       <p class="type-sample" style="font-size:32px;line-height:40px;font-weight:400;">Heading Two</p>
     </div>
     <div class="type-row">
-      <div class="type-meta"><p class="type-token">h3</p><p class="type-size">24px / 32 / 400</p></div>
+      <div class="type-meta">
+        <p class="type-token">h3</p>
+        <dl class="type-spec">
+          <div class="type-spec-pair"><dt>Font size</dt><dd>24px</dd></div>
+          <div class="type-spec-pair"><dt>Line height</dt><dd>32px</dd></div>
+          <div class="type-spec-pair"><dt>Font weight</dt><dd>400</dd></div>
+          <div class="type-spec-pair"><dt>Letter spacing</dt><dd>normal</dd></div>
+        </dl>
+      </div>
       <p class="type-sample" style="font-size:24px;line-height:32px;font-weight:400;">Heading Three</p>
     </div>
     <div class="type-row">
-      <div class="type-meta"><p class="type-token">body-lg</p><p class="type-size">18px / 28 / 400</p></div>
+      <div class="type-meta">
+        <p class="type-token">body-lg</p>
+        <dl class="type-spec">
+          <div class="type-spec-pair"><dt>Font size</dt><dd>18px</dd></div>
+          <div class="type-spec-pair"><dt>Line height</dt><dd>28px</dd></div>
+          <div class="type-spec-pair"><dt>Font weight</dt><dd>400</dd></div>
+          <div class="type-spec-pair"><dt>Letter spacing</dt><dd>normal</dd></div>
+        </dl>
+      </div>
       <p class="type-sample" style="font-size:18px;line-height:28px;">Body large — the quick brown fox jumps over the lazy dog.</p>
     </div>
     <div class="type-row">
-      <div class="type-meta"><p class="type-token">body-md</p><p class="type-size">16px / 24 / 400</p></div>
+      <div class="type-meta">
+        <p class="type-token">body-md</p>
+        <dl class="type-spec">
+          <div class="type-spec-pair"><dt>Font size</dt><dd>16px</dd></div>
+          <div class="type-spec-pair"><dt>Line height</dt><dd>24px</dd></div>
+          <div class="type-spec-pair"><dt>Font weight</dt><dd>400</dd></div>
+          <div class="type-spec-pair"><dt>Letter spacing</dt><dd>normal</dd></div>
+        </dl>
+      </div>
       <p class="type-sample" style="font-size:16px;line-height:24px;">Body medium — the quick brown fox jumps over the lazy dog.</p>
     </div>
     <div class="type-row">
-      <div class="type-meta"><p class="type-token">body-sm</p><p class="type-size">14px / 20 / 400</p></div>
+      <div class="type-meta">
+        <p class="type-token">body-sm</p>
+        <dl class="type-spec">
+          <div class="type-spec-pair"><dt>Font size</dt><dd>14px</dd></div>
+          <div class="type-spec-pair"><dt>Line height</dt><dd>20px</dd></div>
+          <div class="type-spec-pair"><dt>Font weight</dt><dd>400</dd></div>
+          <div class="type-spec-pair"><dt>Letter spacing</dt><dd>normal</dd></div>
+        </dl>
+      </div>
       <p class="type-sample" style="font-size:14px;line-height:20px;">Body small — the quick brown fox jumps over the lazy dog.</p>
     </div>
     <div class="type-row">
-      <div class="type-meta"><p class="type-token">subheader</p><p class="type-size">15px / 23 / 400</p></div>
+      <div class="type-meta">
+        <p class="type-token">subheader</p>
+        <dl class="type-spec">
+          <div class="type-spec-pair"><dt>Font size</dt><dd>15px</dd></div>
+          <div class="type-spec-pair"><dt>Line height</dt><dd>23px</dd></div>
+          <div class="type-spec-pair"><dt>Font weight</dt><dd>400</dd></div>
+          <div class="type-spec-pair"><dt>Letter spacing</dt><dd>normal</dd></div>
+        </dl>
+      </div>
       <p class="type-sample" style="font-size:15px;line-height:23px;color:#5A4F44;">Subheader — Supporting descriptive text</p>
     </div>
     <div class="type-row">
-      <div class="type-meta"><p class="type-token">caption</p><p class="type-size">12px / 16 / 400</p></div>
+      <div class="type-meta">
+        <p class="type-token">caption</p>
+        <dl class="type-spec">
+          <div class="type-spec-pair"><dt>Font size</dt><dd>12px</dd></div>
+          <div class="type-spec-pair"><dt>Line height</dt><dd>16px</dd></div>
+          <div class="type-spec-pair"><dt>Font weight</dt><dd>400</dd></div>
+          <div class="type-spec-pair"><dt>Letter spacing</dt><dd>normal</dd></div>
+        </dl>
+      </div>
       <p class="type-sample" style="font-size:12px;line-height:16px;color:#5A4F44;">Caption — metadata, timestamps, labels</p>
+    </div>
+  </section>
+
+  <!-- ── Icons (Material Symbols) ───────────────── -->
+  <section aria-labelledby="sec-icons">
+    <h2 id="sec-icons" class="section-label">Icons</h2>
+    <p class="icon-section-intro">
+      <strong>Material Symbols Outlined</strong> — <a href="https://fonts.google.com/icons" rel="noopener noreferrer">names</a>. <code>material-symbols-outlined</code> + <code>text-icon-sm</code>–<code>text-icon-xl</code>; default <code>text-icon-fg</code>.
+    </p>
+
+    <p class="palette-name">Icon sizes</p>
+    <p class="icon-section-intro" style="margin-bottom:12px;"><strong>icon-sm</strong> (16px) default. <code>wght</code> / <code>opsz</code> follow the size token.</p>
+    <table class="icon-scale-table">
+      <thead>
+        <tr>
+          <th scope="col">Class</th>
+          <th scope="col">Size</th>
+          <th scope="col">Tailwind</th>
+          <th scope="col">Use</th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="icon-token">icon-sm</td>
+          <td class="icon-scale-dd">16px</td>
+          <td class="icon-scale-dd"><code>text-icon-sm</code> · <code>h-4 w-4</code></td>
+          <td>Default — nav, lists, inputs, buttons</td>
+          <td class="icon-scale-sample"><span class="material-symbols-outlined icon-sm" aria-hidden="true">search</span></td>
+        </tr>
+        <tr>
+          <td class="icon-token">icon-md</td>
+          <td class="icon-scale-dd">24px</td>
+          <td class="icon-scale-dd"><code>text-icon-md</code> · <code>h-6 w-6</code></td>
+          <td>Section labels, cards</td>
+          <td class="icon-scale-sample"><span class="material-symbols-outlined icon-md" aria-hidden="true">search</span></td>
+        </tr>
+        <tr>
+          <td class="icon-token">icon-lg</td>
+          <td class="icon-scale-dd">36px</td>
+          <td class="icon-scale-dd"><code>text-icon-lg</code> · <code>h-9 w-9</code></td>
+          <td>Empty states, hero tiles</td>
+          <td class="icon-scale-sample"><span class="material-symbols-outlined icon-lg" aria-hidden="true">search</span></td>
+        </tr>
+        <tr>
+          <td class="icon-token">icon-xl</td>
+          <td class="icon-scale-dd">48px</td>
+          <td class="icon-scale-dd"><code>text-icon-xl</code> · <code>h-12 w-12</code></td>
+          <td>Marketing, large targets</td>
+          <td class="icon-scale-sample"><span class="material-symbols-outlined icon-xl" aria-hidden="true">search</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p class="palette-name">Common icons</p>
+    <div class="icon-library" role="list">
+      <div class="icon-library-card" role="listitem"><span class="material-symbols-outlined icon-md" aria-hidden="true">search</span><div class="icon-library-name">search</div><div class="icon-library-hint">Search fields</div></div>
+      <div class="icon-library-card" role="listitem"><span class="material-symbols-outlined icon-md" aria-hidden="true">menu</span><div class="icon-library-name">menu</div><div class="icon-library-hint">Nav drawer</div></div>
+      <div class="icon-library-card" role="listitem"><span class="material-symbols-outlined icon-md" aria-hidden="true">close</span><div class="icon-library-name">close</div><div class="icon-library-hint">Dismiss</div></div>
+      <div class="icon-library-card" role="listitem"><span class="material-symbols-outlined icon-md" aria-hidden="true">expand_more</span><div class="icon-library-name">expand_more</div><div class="icon-library-hint">Selects</div></div>
+      <div class="icon-library-card" role="listitem"><span class="material-symbols-outlined icon-md" aria-hidden="true">chevron_right</span><div class="icon-library-name">chevron_right</div><div class="icon-library-hint">Drill-in</div></div>
+      <div class="icon-library-card" role="listitem"><span class="material-symbols-outlined icon-md" aria-hidden="true">add</span><div class="icon-library-name">add</div><div class="icon-library-hint">Create</div></div>
+      <div class="icon-library-card" role="listitem"><span class="material-symbols-outlined icon-md" aria-hidden="true">check</span><div class="icon-library-name">check</div><div class="icon-library-hint">Confirm</div></div>
+      <div class="icon-library-card" role="listitem"><span class="material-symbols-outlined icon-md" aria-hidden="true">delete</span><div class="icon-library-name">delete</div><div class="icon-library-hint">Remove</div></div>
+      <div class="icon-library-card" role="listitem"><span class="material-symbols-outlined icon-md" aria-hidden="true">person</span><div class="icon-library-name">person</div><div class="icon-library-hint">Account</div></div>
+      <div class="icon-library-card" role="listitem"><span class="material-symbols-outlined icon-md" aria-hidden="true">settings</span><div class="icon-library-name">settings</div><div class="icon-library-hint">Preferences</div></div>
+      <div class="icon-library-card" role="listitem"><span class="material-symbols-outlined icon-md" aria-hidden="true">notifications</span><div class="icon-library-name">notifications</div><div class="icon-library-hint">Alerts</div></div>
+      <div class="icon-library-card" role="listitem"><span class="material-symbols-outlined icon-md" aria-hidden="true">home</span><div class="icon-library-name">home</div><div class="icon-library-hint">Home</div></div>
+      <div class="icon-library-card" role="listitem"><span class="material-symbols-outlined icon-md" aria-hidden="true">dashboard</span><div class="icon-library-name">dashboard</div><div class="icon-library-hint">Overview</div></div>
+      <div class="icon-library-card" role="listitem"><span class="material-symbols-outlined icon-md" aria-hidden="true">calendar_today</span><div class="icon-library-name">calendar_today</div><div class="icon-library-hint">Dates</div></div>
+      <div class="icon-library-card" role="listitem"><span class="material-symbols-outlined icon-md" aria-hidden="true">description</span><div class="icon-library-name">description</div><div class="icon-library-hint">Documents</div></div>
+      <div class="icon-library-card" role="listitem"><span class="material-symbols-outlined icon-md" aria-hidden="true">groups</span><div class="icon-library-name">groups</div><div class="icon-library-hint">People</div></div>
+      <div class="icon-library-card" role="listitem"><span class="material-symbols-outlined icon-md" aria-hidden="true">location_on</span><div class="icon-library-name">location_on</div><div class="icon-library-hint">Place</div></div>
+      <div class="icon-library-card" role="listitem"><span class="material-symbols-outlined icon-md" aria-hidden="true">monitoring</span><div class="icon-library-name">monitoring</div><div class="icon-library-hint">Metrics</div></div>
     </div>
   </section>
 
@@ -580,7 +1345,7 @@
     <div class="demo-grid">
       <article class="card">
         <span class="badge">New Arrival</span>
-        <p style="font-family:'Spectral',serif;font-size:24px;line-height:32px;font-weight:400;letter-spacing:-1.5px;margin-top:12px;">Artisan Ceramic Mug</p>
+        <p class="type-sample-serif" style="font-size:24px;line-height:32px;font-weight:400;margin-top:12px;">Artisan Ceramic Mug</p>
         <p style="font-size:14px;line-height:20px;color:#5A4F44;margin-top:6px;">Hand-thrown stoneware with a warm sand glaze. Limited edition.</p>
         <hr class="divider" />
         <div style="display:flex;align-items:center;justify-content:space-between;">
@@ -591,7 +1356,7 @@
 
       <article class="card" style="background:#1A1715;border-color:#413932;">
         <span class="badge badge-gold-dark">Featured</span>
-        <p style="font-family:'Spectral',serif;font-size:24px;line-height:32px;font-weight:400;letter-spacing:-1.5px;margin-top:12px;color:#F1ECE4;">Reserve Collection</p>
+        <p class="type-sample-serif" style="font-size:24px;line-height:32px;font-weight:400;margin-top:12px;color:#F1ECE4;">Reserve Collection</p>
         <p style="font-size:14px;line-height:20px;color:#B7A996;margin-top:6px;">Exclusive pieces curated from independent makers worldwide.</p>
         <hr class="divider" style="border-color:#413932;" />
         <div style="display:flex;align-items:center;justify-content:space-between;">

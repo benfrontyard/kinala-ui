@@ -4,11 +4,13 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Kinala — Overview</title>
+  <!-- Theme: tailwind.config.js (same extend.* as tailwind.config = below). Tokens & type: kinala-ui-foundations.html. Icons: SVG here = icon-sm (16px); Material Symbols optional per foundations. -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Spectral:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet" />
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
+    /* theme.extend mirrors repo root tailwind.config.js — update both when changing tokens. */
     tailwind.config = {
       theme: {
         extend: {
@@ -18,7 +20,13 @@
           },
           letterSpacing: {
             sans: 'normal',
-            serif: '-1.5px',
+            serif: '-0.02em',
+          },
+          fontSize: {
+            'icon-sm': ['16px', { lineHeight: '1' }],
+            'icon-md': ['24px', { lineHeight: '1' }],
+            'icon-lg': ['36px', { lineHeight: '1' }],
+            'icon-xl': ['48px', { lineHeight: '1' }],
           },
           colors: {
             cream: '#FBF8F3',
@@ -39,11 +47,19 @@
             panel: '#1A1715',
             'panel-muted': '#978976',
             'panel-line': 'rgba(232,223,210,0.12)',
+            link: '#7D3A20',
+            'link-hover': '#5C2A18',
+            'link-inverse': '#D9BC73',
+            'link-inverse-hover': '#F5EFE6',
+            'focus-ring': '#B45A32',
+            danger: '#B33A2C',
+            'danger-soft': 'rgba(179,58,44,0.14)',
           },
           boxShadow: {
-            card: '0 6px 22px rgba(26,23,21,0.07)',
-            lift: '0 10px 36px rgba(26,23,21,0.09)',
-            inset: 'inset 0 1px 0 rgba(255,255,255,0.06)',
+            card: '0 0.375em 1.375em rgba(26,23,21,0.07)',
+            lift: '0 0.625em 2.25em rgba(26,23,21,0.09)',
+            inset: 'inset 0 0.0625em 0 rgba(255,255,255,0.06)',
+            'danger-soft': '0 0 0 3px rgba(179,58,44,0.14)',
           },
         },
       },
@@ -57,6 +73,7 @@
         transition-duration: 0.01ms !important;
       }
     }
+    /* Coarse pointers: Tailwind 3.4+ hover: only applies when (hover: hover) matches. */
     :focus-visible {
       outline: 3px solid #B45A32;
       outline-offset: 3px;
@@ -334,10 +351,10 @@
       const id = useId();
       const Glyph = IconGlyph;
       return (
-        <div className="relative flex min-w-0 max-w-full items-center gap-1 rounded-md border border-line bg-surface py-1 pl-2 pr-7 shadow-sm transition-colors hover:bg-wash focus-within:ring-2 focus-within:ring-rust/25">
+        <div className="relative flex h-9 min-h-9 min-w-0 max-w-full items-center gap-1 rounded-md border border-line bg-surface py-0 pl-2 pr-7 shadow-sm transition-colors hover:bg-wash focus-within:ring-2 focus-within:ring-rust/25">
           {Glyph && (
             <span className="hidden shrink-0 text-icon-fg sm:inline" aria-hidden>
-              <Glyph className="h-4 w-4" />
+              <Glyph className="h-3.5 w-3.5" />
             </span>
           )}
           <label htmlFor={id} className="sr-only">
@@ -349,7 +366,7 @@
             id={id}
             value={value}
             onChange={(e) => onChange(e.target.value)}
-            className="min-w-0 flex-1 cursor-pointer appearance-none border-0 bg-transparent py-1 text-[13px] font-medium text-ink outline-none focus:ring-0"
+            className="min-h-0 min-w-0 flex-1 cursor-pointer appearance-none border-0 bg-transparent py-0 text-[12px] font-medium leading-none text-ink outline-none focus:ring-0"
           >
             {options.map((opt) => (
               <option key={opt} value={opt}>
@@ -357,7 +374,7 @@
               </option>
             ))}
           </select>
-          <ChevronDown className="pointer-events-none absolute right-1.5 top-1/2 h-4 w-4 -translate-y-1/2 text-icon-fg" />
+          <ChevronDown className="pointer-events-none absolute right-1.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-icon-fg" />
         </div>
       );
     }
@@ -428,7 +445,7 @@
             <div className="flex shrink-0 items-center gap-1">
               <button
                 type="button"
-                className="hidden h-10 w-10 shrink-0 items-center justify-center rounded-md border border-line text-icon-fg transition-colors hover:bg-wash hover:text-ink lg:inline-flex"
+                className="hidden h-11 w-11 shrink-0 items-center justify-center rounded-md border border-line text-icon-fg transition-colors hover:bg-wash hover:text-ink lg:inline-flex"
                 onClick={onToggleCollapsed}
                 aria-expanded={!collapsed}
                 aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
@@ -437,7 +454,7 @@
               </button>
               <button
                 type="button"
-                className="flex h-10 w-10 items-center justify-center rounded-md border border-line text-icon-fg hover:bg-wash hover:text-ink lg:hidden"
+                className="flex h-11 w-11 items-center justify-center rounded-md border border-line text-icon-fg hover:bg-wash hover:text-ink lg:hidden"
                 onClick={onClose}
                 aria-label="Close navigation"
               >
@@ -464,7 +481,7 @@
             >
               <SidebarNavTooltip label="East Africa cohort" show={!showLabels}>
                 <span className="shrink-0 text-icon-fg">
-                  <IconLayers className="h-[18px] w-[18px]" />
+                  <IconLayers className="h-4 w-4" />
                 </span>
               </SidebarNavTooltip>
               {showLabels ? <span className="truncate font-semibold text-ink">East Africa cohort</span> : null}
@@ -504,7 +521,7 @@
                 >
                   <SidebarNavTooltip label={item.label} show={!showLabels}>
                     <span className={`shrink-0 ${item.active ? 'text-ink' : 'text-icon-fg group-hover:text-muted'}`}>
-                      <NavIcon className="h-[18px] w-[18px]" />
+                      <NavIcon className="h-4 w-4" />
                     </span>
                   </SidebarNavTooltip>
                   {showLabels ? <span className="min-w-0 truncate">{item.label}</span> : null}
@@ -523,7 +540,7 @@
               href="kinala-ui-foundations.html"
               aria-label={showLabels ? undefined : 'UI Foundations — design tokens reference'}
               className={[
-                'mb-2 flex min-h-[44px] items-center rounded-lg text-[12px] font-semibold text-rust underline-offset-2 transition-colors hover:bg-wash hover:text-rust-deep hover:underline',
+                'mb-2 flex min-h-[44px] items-center rounded-lg text-[12px] font-semibold text-link underline underline-offset-2 transition-colors hover:bg-wash hover:text-link-hover',
                 showLabels ? 'px-2 py-2' : 'justify-center px-0 py-2',
               ].join(' ')}
               title="Design tokens, colors, and component states (static reference)"
@@ -549,7 +566,7 @@
           <div className="flex items-start justify-between gap-3">
             <p className="text-[13px] font-medium text-muted">{label}</p>
             {MetricIcon && (
-              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md border border-line bg-cream text-icon-fg">
+              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-md border border-line bg-cream text-icon-fg">
                 <MetricIcon />
               </span>
             )}
@@ -622,7 +639,7 @@
               <span className="hidden h-6 w-px bg-line sm:block" aria-hidden="true" />
               <button
                 type="button"
-                className="hidden h-8 w-8 items-center justify-center rounded-md border border-line text-icon-fg hover:bg-wash sm:inline-flex"
+                className="hidden h-11 w-11 items-center justify-center rounded-md border border-line text-icon-fg hover:bg-wash sm:inline-flex"
                 aria-label="Chart actions (preview)"
               >
                 <IconLink />
@@ -810,7 +827,7 @@
         <div className="rounded-xl border border-line bg-surface shadow-sm">
           <div className="flex flex-col gap-3 border-b border-line px-4 py-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
             <div className="flex min-w-0 items-start gap-2">
-              <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-md border border-line bg-cream text-icon-fg">
+              <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-md border border-line bg-cream text-icon-fg">
                 <IconBuilding />
               </span>
               <div className="min-w-0">
@@ -833,11 +850,11 @@
                   onChange={(e) => setQuery(e.target.value)}
                   placeholder="Search name or ID…"
                   autoComplete="off"
-                  className="w-full rounded-lg border border-line bg-cream py-2 pl-9 pr-3 text-[13px] text-ink outline-none ring-rust/0 transition placeholder:text-muted focus:border-rust/40 focus:ring-2 focus:ring-rust/20"
+                  className="w-full rounded-lg border border-line bg-cream py-2 pl-9 pr-3 text-base text-ink outline-none ring-rust/0 transition-[color,box-shadow,border-color] placeholder:text-muted focus:border-rust/40 focus:ring-2 focus:ring-rust/20"
                 />
               </div>
               <span className="hidden shrink-0 items-center gap-1.5 rounded-full border border-line bg-cream px-2.5 py-1 text-[11px] font-medium text-muted sm:inline-flex">
-                <IconSignal className="h-3.5 w-3.5 text-icon-fg" />
+                <IconSignal className="h-4 w-4 text-icon-fg" />
                 By adherence
               </span>
             </div>
@@ -847,7 +864,7 @@
               <li key={f.id}>
                 <button
                   type="button"
-                  className="flex w-full items-center gap-3 px-4 py-3 text-left transition-colors hover:bg-[#FAF7F2]"
+                  className="flex w-full items-center gap-3 px-4 py-3 text-left transition-colors hover:bg-cream"
                 >
                   <span className="shrink-0 text-icon-fg" title={f.ok ? 'On track' : 'Needs attention'}>
                     {f.ok ? <IconCheckCircle /> : <IconCircleDashed />}
@@ -862,7 +879,7 @@
                         Adherence <span className="font-semibold text-ink">{f.adherence}%</span>
                       </span>
                       <span className="inline-flex items-center gap-1 tabular-nums">
-                        <IconClock className="h-3.5 w-3.5 text-icon-fg" />
+                        <IconClock className="h-4 w-4 text-icon-fg" />
                         Lag {f.lag}
                       </span>
                     </div>
@@ -927,10 +944,10 @@
           {items.map((item) => (
             <article
               key={item.title}
-              className="rounded-xl border border-line bg-surface p-4 shadow-sm transition-colors hover:bg-[#FAF7F2]"
+              className="rounded-xl border border-line bg-surface p-4 shadow-sm transition-colors hover:bg-cream"
             >
               <div className="flex items-start gap-3">
-                <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-md border border-line bg-cream text-icon-fg">
+                <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-md border border-line bg-cream text-icon-fg">
                   <IconLightbulb />
                 </span>
                 <div className="min-w-0 flex-1">
@@ -974,7 +991,7 @@
                 const StepIcon = s.Icon;
                 return (
                   <li key={s.label} className="flex gap-3 py-3 text-[13px]">
-                    <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md border border-panel-line text-gold-soft">
+                    <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-md border border-panel-line text-gold-soft">
                       <StepIcon />
                     </span>
                     <span className="text-panel-muted">
@@ -1000,21 +1017,21 @@
             <dl className="mt-5 grid grid-cols-2 gap-3">
               <div className="rounded-lg border border-line bg-cream p-3">
                 <dt className="flex items-center gap-1.5 text-[12px] font-medium text-muted">
-                  <IconUsers className="h-3.5 w-3.5 text-icon-fg" />
+                  <IconUsers className="h-4 w-4 text-icon-fg" />
                   Active partners
                 </dt>
                 <dd className="mt-2 text-2xl font-semibold tabular-nums text-ink">18</dd>
               </div>
               <div className="rounded-lg border border-line bg-cream p-3">
                 <dt className="flex items-center gap-1.5 text-[12px] font-medium text-muted">
-                  <IconBuilding className="h-3.5 w-3.5 text-icon-fg" />
+                  <IconBuilding className="h-4 w-4 text-icon-fg" />
                   Co-funded sites
                 </dt>
                 <dd className="mt-2 text-2xl font-semibold tabular-nums text-ink">64</dd>
               </div>
               <div className="rounded-lg border border-rust/15 bg-blush/40 p-3 sm:col-span-2">
                 <dt className="flex items-center gap-1.5 text-[12px] font-medium text-muted">
-                  <IconTarget className="h-3.5 w-3.5 text-rust" />
+                  <IconTarget className="h-4 w-4 text-rust" />
                   Joint OKR
                 </dt>
                 <dd className="mt-2 text-[13px] font-medium leading-snug text-ink">
@@ -1037,8 +1054,8 @@
       onRegionChange,
     }) {
       return (
-        <header className="flex min-h-12 flex-wrap items-center gap-2 border-b border-line bg-surface px-3 py-1.5 sm:gap-3 sm:px-4">
-          <div className="flex min-w-0 flex-1 items-center gap-2 sm:gap-2.5">
+        <header className="flex min-h-11 flex-nowrap items-center gap-2 border-b border-line bg-surface px-3 py-1.5 sm:gap-3 sm:px-4">
+          <div className="flex min-w-0 shrink-0 items-center gap-2 sm:gap-2.5">
             <button
               type="button"
               className="flex h-9 w-9 shrink-0 items-center justify-center rounded-md border border-line text-icon-fg transition-colors hover:bg-wash hover:text-ink lg:hidden"
@@ -1060,22 +1077,22 @@
             />
             <a
               href="kinala-ui-foundations.html"
-              className="ml-auto shrink-0 rounded-md border border-line bg-cream px-2.5 py-1.5 text-[12px] font-semibold text-rust transition-colors hover:bg-wash hover:text-rust-deep sm:ml-0 sm:border-transparent sm:bg-transparent sm:pl-3 sm:border-l sm:border-line"
+              className="ml-auto inline-flex h-9 max-w-full shrink-0 items-center rounded-md border border-line bg-cream px-2.5 text-[12px] font-semibold text-link underline underline-offset-2 transition-colors hover:bg-wash hover:text-link-hover sm:ml-0 sm:border-transparent sm:bg-transparent sm:pl-3 sm:border-l sm:border-line"
             >
               UI Foundations
             </a>
           </div>
-          <button
-            type="button"
-            onClick={onOpenRisk}
-            className="inline-flex h-9 shrink-0 items-center gap-1.5 rounded-md border border-line bg-cream px-2.5 text-[12px] font-semibold text-ink hover:bg-wash lg:hidden"
-            aria-label="Open regional risk panel"
-          >
-            <IconMapPin className="h-4 w-4 text-icon-fg" />
-            Risk
-          </button>
-          <div className="flex min-w-0 flex-wrap items-center justify-end gap-2">
-            <div className="flex min-w-0 flex-[1_1_240px] items-center gap-1.5 sm:flex-initial sm:gap-2">
+          <div className="flex min-w-0 flex-1 flex-nowrap items-center justify-end gap-2 overflow-x-auto overscroll-x-contain [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            <button
+              type="button"
+              onClick={onOpenRisk}
+              className="inline-flex h-9 shrink-0 items-center gap-1.5 rounded-md border border-line bg-cream px-2.5 text-[12px] font-semibold text-ink hover:bg-wash lg:hidden"
+              aria-label="Open regional risk panel"
+            >
+              <IconMapPin className="h-3.5 w-3.5 text-icon-fg" />
+              Risk
+            </button>
+            <div className="flex min-w-0 shrink-0 items-center gap-1.5 sm:gap-2">
               <StyledSelect
                 label="Range"
                 value={range}
@@ -1093,13 +1110,13 @@
             </div>
             <button
               type="button"
-              className="rounded-lg bg-rust px-3 py-2 text-[13px] font-semibold text-cream transition-colors hover:bg-rust-deep sm:py-1.5"
+              className="inline-flex h-9 shrink-0 items-center rounded-lg bg-rust px-4 text-sm font-semibold text-cream transition-colors hover:bg-rust-deep"
             >
               Export
             </button>
             <button
               type="button"
-              className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-line bg-cream shadow-sm transition-colors hover:border-rust/35"
+              className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-line bg-cream shadow-sm transition-colors hover:border-rust/35"
               aria-label="Account (preview)"
             >
               <span className="flex h-7 w-7 items-center justify-center rounded-full bg-rust text-[10px] font-bold text-cream">
@@ -1250,7 +1267,7 @@
                   <footer className="border-t border-line pt-5 text-center text-[11px] text-muted">
                     <a
                       href="kinala-ui-foundations.html"
-                      className="font-semibold text-rust underline-offset-2 hover:underline"
+                      className="font-semibold text-link underline underline-offset-2 hover:text-link-hover"
                     >
                       UI Foundations
                     </a>
@@ -1295,7 +1312,7 @@
             <button
               type="button"
               onClick={() => setRiskDrawerOpen(true)}
-              className="fixed bottom-4 right-4 z-20 flex min-h-[48px] items-center gap-2 rounded-full bg-rust px-4 py-3 text-[13px] font-semibold text-cream shadow-lg transition hover:bg-rust-deep lg:hidden"
+              className="fixed bottom-4 right-4 z-20 flex min-h-[48px] items-center gap-2 rounded-full bg-rust px-4 py-3 text-sm font-semibold text-cream shadow-lg transition-colors hover:bg-rust-deep lg:hidden"
               aria-label="Open regional risk panel"
             >
               <IconMapPin className="h-4 w-4" />

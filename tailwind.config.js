@@ -1,13 +1,14 @@
 /**
- * Kinala UI — Tailwind theme (matches kinala-dashboard-concept.html).
- * Copy this file into your app or merge `theme.extend` into your existing config.
- * Set `content` to your template/source paths (required for class detection).
+ * Kinala UI — Tailwind theme (kept in sync with kinala-dashboard-concept.html CDN config).
+ * Copy into your app or merge `theme.extend`. UI reference (dev-first): kinala-ui-foundations.html.
  *
  * @type {import('tailwindcss').Config}
  */
 module.exports = {
   content: [
     './index.html',
+    './kinala-dashboard-concept.html',
+    './kinala-ui-foundations.html',
     './src/**/*.{js,ts,jsx,tsx,vue,svelte}',
   ],
   theme: {
@@ -16,10 +17,17 @@ module.exports = {
         serif: ['Spectral', 'Georgia', 'serif'],
         sans: ['"DM Sans"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
       },
+      // Material Symbols: 16 / 24 / 36 / 48 — pair with Google Fonts + .material-symbols-outlined (see foundations).
+      fontSize: {
+        'icon-sm': ['16px', { lineHeight: '1' }],
+        'icon-md': ['24px', { lineHeight: '1' }],
+        'icon-lg': ['36px', { lineHeight: '1' }],
+        'icon-xl': ['48px', { lineHeight: '1' }],
+      },
       // Pair font-sans + tracking-sans and font-serif + tracking-serif (not bound automatically).
       letterSpacing: {
         sans: 'normal',
-        serif: '-1.5px',
+        serif: '-0.02em',
       },
       colors: {
         cream: '#FBF8F3',
@@ -40,11 +48,20 @@ module.exports = {
         panel: '#1A1715',
         'panel-muted': '#978976',
         'panel-line': 'rgba(232,223,210,0.12)',
+        // Semantic — use for inline links, focus, validation (WCAG AA on cream / panel when paired as documented in kinala-ui-foundations.html).
+        link: '#7D3A20',
+        'link-hover': '#5C2A18',
+        'link-inverse': '#D9BC73',
+        'link-inverse-hover': '#F5EFE6',
+        'focus-ring': '#B45A32',
+        danger: '#B33A2C',
+        'danger-soft': 'rgba(179,58,44,0.14)',
       },
       boxShadow: {
-        card: '0 6px 22px rgba(26,23,21,0.07)',
-        lift: '0 10px 36px rgba(26,23,21,0.09)',
-        inset: 'inset 0 1px 0 rgba(255,255,255,0.06)',
+        card: '0 0.375em 1.375em rgba(26,23,21,0.07)',
+        lift: '0 0.625em 2.25em rgba(26,23,21,0.09)',
+        inset: 'inset 0 0.0625em 0 rgba(255,255,255,0.06)',
+        'danger-soft': '0 0 0 3px rgba(179,58,44,0.14)',
       },
     },
   },
