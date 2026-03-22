@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Kinala UI Foundations</title>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Spectral:wght@400;600;700&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -18,7 +18,7 @@
     body {
       background: #FBF8F3;
       color: #1A1715;
-      font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+      font-family: 'DM Sans', ui-sans-serif, system-ui, sans-serif;
       font-size: 16px;
       line-height: 24px;
       padding: 32px 20px;
@@ -30,10 +30,10 @@
     }
 
     .page-title {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(2rem, 6vw, 48px);
+      font-family: 'Spectral', serif;
       line-height: 1.15;
-      font-weight: 700;
+      font-weight: 400;
+      letter-spacing: -1.5px;
       margin-bottom: 8px;
     }
 
@@ -124,7 +124,7 @@
       align-items: center;
       justify-content: center;
       gap: 6px;
-      font-family: 'Inter', sans-serif;
+      font-family: 'DM Sans', sans-serif;
       font-size: 14px;
       font-weight: 600;
       padding: 10px 20px;
@@ -174,7 +174,7 @@
       padding: 10px 14px;
       border: 1.5px solid #D6C9B8;
       border-radius: 10px;
-      font-family: 'Inter', sans-serif;
+      font-family: 'DM Sans', sans-serif;
       font-size: 15px;
       color: #1A1715;
       background: #FBF8F3;
@@ -332,7 +332,7 @@
       <path d="M627.577 154.947V16.9575H643.677V154.947H627.577Z" fill="#F1ECE4"/>
       <path d="M697.847 157.247C690.057 157.247 683.537 155.907 678.297 153.217C673.057 150.407 669.157 146.768 666.607 142.298C664.047 137.698 662.777 132.717 662.777 127.347C662.777 120.827 664.437 115.338 667.757 110.868C671.207 106.268 675.997 102.817 682.127 100.517C688.387 98.0875 695.737 96.8775 704.167 96.8775H729.657C729.657 90.8775 728.697 85.8875 726.777 81.9275C724.987 77.8375 722.307 74.7775 718.727 72.7275C715.277 70.6875 710.937 69.6575 705.697 69.6575C699.567 69.6575 694.267 71.1875 689.787 74.2575C685.317 77.3275 682.567 81.8575 681.547 87.8675H665.067C665.837 80.9675 668.137 75.2175 671.967 70.6175C675.927 65.8875 680.907 62.3175 686.917 59.8875C692.917 57.3275 699.187 56.0575 705.697 56.0575C714.637 56.0575 722.047 57.7175 727.927 61.0375C733.927 64.2275 738.407 68.7675 741.337 74.6475C744.277 80.3975 745.747 87.2275 745.747 95.1575V154.947H731.377L730.417 137.887C729.137 140.567 727.477 143.127 725.437 145.557C723.517 147.857 721.217 149.898 718.537 151.688C715.857 153.347 712.787 154.688 709.337 155.708C706.017 156.728 702.187 157.238 697.837 157.238L697.847 157.247ZM700.337 143.637C704.807 143.637 708.837 142.747 712.407 140.957C716.117 139.037 719.247 136.487 721.797 133.287C724.357 129.967 726.267 126.328 727.547 122.368C728.957 118.408 729.657 114.258 729.657 109.908V109.337H705.507C699.247 109.337 694.197 110.107 690.367 111.637C686.537 113.047 683.787 115.087 682.127 117.767C680.467 120.327 679.637 123.258 679.637 126.588C679.637 129.918 680.407 133.037 681.937 135.597C683.597 138.157 685.957 140.137 689.027 141.537C692.217 142.937 695.987 143.647 700.337 143.647V143.637Z" fill="#F1ECE4"/>
     </svg>
-    <p class="hero-sub">Warm earth tones meet refined typography — a design language built for brands with depth.</p>
+    <p class="hero-sub">Kinala UI is the shared foundation for color, type, spacing, and components. Use it to ship interfaces that stay consistent, accessible, and on brand.</p>
     <a class="btn btn-gold" href="#interaction-states">Explore Interaction States</a>
   </div>
 
@@ -401,23 +401,23 @@
     <h2 id="sec-type" class="section-label">Typography Scale</h2>
     <div class="type-row">
       <div class="type-meta"><p class="type-token">display-xl</p><p class="type-size">64px / 72 / 400</p></div>
-      <p class="type-sample" style="font-family:'Cormorant Garamond',serif;font-size:64px;line-height:72px;font-weight:400;letter-spacing:-0.02em;" aria-label="Display XL sample text">Display XL</p>
+      <p class="type-sample" style="font-family:'Spectral',serif;font-size:64px;line-height:72px;font-weight:400;letter-spacing:-1.5px;" aria-label="Display XL sample text">Display XL</p>
     </div>
     <div class="type-row">
       <div class="type-meta"><p class="type-token">display-lg</p><p class="type-size">48px / 56 / 400</p></div>
-      <p class="type-sample" style="font-family:'Cormorant Garamond',serif;font-size:48px;line-height:56px;font-weight:400;letter-spacing:-0.02em;">Display Large</p>
+      <p class="type-sample" style="font-family:'Spectral',serif;font-size:48px;line-height:56px;font-weight:400;letter-spacing:-1.5px;">Display Large</p>
     </div>
     <div class="type-row">
       <div class="type-meta"><p class="type-token">h1</p><p class="type-size">40px / 48 / 400</p></div>
-      <p class="type-sample" style="font-size:40px;line-height:48px;font-weight:400;letter-spacing:-0.02em;">Heading One</p>
+      <p class="type-sample" style="font-size:40px;line-height:48px;font-weight:400;">Heading One</p>
     </div>
     <div class="type-row">
       <div class="type-meta"><p class="type-token">h2</p><p class="type-size">32px / 40 / 400</p></div>
-      <p class="type-sample" style="font-size:32px;line-height:40px;font-weight:400;letter-spacing:-0.02em;">Heading Two</p>
+      <p class="type-sample" style="font-size:32px;line-height:40px;font-weight:400;">Heading Two</p>
     </div>
     <div class="type-row">
       <div class="type-meta"><p class="type-token">h3</p><p class="type-size">24px / 32 / 400</p></div>
-      <p class="type-sample" style="font-size:24px;line-height:32px;font-weight:400;letter-spacing:-0.02em;">Heading Three</p>
+      <p class="type-sample" style="font-size:24px;line-height:32px;font-weight:400;">Heading Three</p>
     </div>
     <div class="type-row">
       <div class="type-meta"><p class="type-token">body-lg</p><p class="type-size">18px / 28 / 400</p></div>
@@ -580,7 +580,7 @@
     <div class="demo-grid">
       <article class="card">
         <span class="badge">New Arrival</span>
-        <p style="font-family:'Cormorant Garamond',serif;font-size:24px;line-height:32px;font-weight:400;letter-spacing:-0.02em;margin-top:12px;">Artisan Ceramic Mug</p>
+        <p style="font-family:'Spectral',serif;font-size:24px;line-height:32px;font-weight:400;letter-spacing:-1.5px;margin-top:12px;">Artisan Ceramic Mug</p>
         <p style="font-size:14px;line-height:20px;color:#5A4F44;margin-top:6px;">Hand-thrown stoneware with a warm sand glaze. Limited edition.</p>
         <hr class="divider" />
         <div style="display:flex;align-items:center;justify-content:space-between;">
@@ -591,7 +591,7 @@
 
       <article class="card" style="background:#1A1715;border-color:#413932;">
         <span class="badge badge-gold-dark">Featured</span>
-        <p style="font-family:'Cormorant Garamond',serif;font-size:24px;line-height:32px;font-weight:400;letter-spacing:-0.02em;margin-top:12px;color:#F1ECE4;">Reserve Collection</p>
+        <p style="font-family:'Spectral',serif;font-size:24px;line-height:32px;font-weight:400;letter-spacing:-1.5px;margin-top:12px;color:#F1ECE4;">Reserve Collection</p>
         <p style="font-size:14px;line-height:20px;color:#B7A996;margin-top:6px;">Exclusive pieces curated from independent makers worldwide.</p>
         <hr class="divider" style="border-color:#413932;" />
         <div style="display:flex;align-items:center;justify-content:space-between;">

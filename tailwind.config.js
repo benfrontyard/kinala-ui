@@ -13,8 +13,13 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        serif: ['"Cormorant Garamond"', 'Georgia', 'serif'],
-        sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        serif: ['Spectral', 'Georgia', 'serif'],
+        sans: ['"DM Sans"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+      },
+      // Pair font-sans + tracking-sans and font-serif + tracking-serif (not bound automatically).
+      letterSpacing: {
+        sans: 'normal',
+        serif: '-1.5px',
       },
       colors: {
         cream: '#FBF8F3',
