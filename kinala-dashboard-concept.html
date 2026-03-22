@@ -54,8 +54,9 @@
       }
     }
     :focus-visible {
-      outline: 2px solid #B45A32;
-      outline-offset: 2px;
+      outline: 3px solid #B45A32;
+      outline-offset: 3px;
+      border-radius: 4px;
     }
   </style>
 </head>
@@ -514,6 +515,17 @@
               desktopNarrow ? 'px-1 py-2 lg:px-0 lg:py-2' : 'p-3',
             ].join(' ')}
           >
+            <a
+              href="kinala-ui-foundations.html"
+              aria-label={showLabels ? undefined : 'UI Foundations — design tokens reference'}
+              className={[
+                'mb-2 flex min-h-[44px] items-center rounded-lg text-[12px] font-semibold text-rust underline-offset-2 transition-colors hover:bg-wash hover:text-rust-deep hover:underline',
+                showLabels ? 'px-2 py-2' : 'justify-center px-0 py-2',
+              ].join(' ')}
+              title="Design tokens, colors, and component states (static reference)"
+            >
+              {showLabels ? 'UI Foundations' : <span aria-hidden="true">F</span>}
+            </a>
             {showLabels ? (
               <p className="px-1 text-[12px] text-muted">
                 <span className="font-medium text-ink">Synced</span> · 12m
@@ -1038,6 +1050,12 @@
               className="hidden h-5 w-auto max-w-[min(104px,26vw)] shrink-0 text-ink sm:block"
               title="Kinala"
             />
+            <a
+              href="kinala-ui-foundations.html"
+              className="ml-auto shrink-0 rounded-md border border-line bg-cream px-2.5 py-1.5 text-[12px] font-semibold text-rust transition-colors hover:bg-wash hover:text-rust-deep sm:ml-0 sm:border-transparent sm:bg-transparent sm:pl-3 sm:border-l sm:border-line"
+            >
+              UI Foundations
+            </a>
           </div>
           <button
             type="button"
@@ -1222,6 +1240,15 @@
                   </section>
 
                   <footer className="border-t border-line pt-5 text-center text-[11px] text-muted">
+                    <a
+                      href="kinala-ui-foundations.html"
+                      className="font-semibold text-rust underline-offset-2 hover:underline"
+                    >
+                      UI Foundations
+                    </a>
+                    <span className="mx-1.5 text-line-strong" aria-hidden="true">
+                      ·
+                    </span>
                     Concept preview · not production software
                   </footer>
                   </div>
